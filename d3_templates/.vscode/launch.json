@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "static_vis",
+            "url": "http://localhost:8000/d3_templates/static_vis/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "jquery",
+            "url": "http://localhost:8000/d3_templates/jquery/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "dynamic_vis",
+            "url": "http://localhost:8000/d3_templates/dynamic_vis/index.html",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
