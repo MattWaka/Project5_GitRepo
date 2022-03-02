@@ -9,7 +9,7 @@ be animated/updated etc. Typically, you will put things here that are not depend
 var margins = { left:100, right:40, top:50, bottom:150};
 
 //define chart sizes
-var width = 600 - margins.left - margins.right;
+var width = 1000 - margins.left - margins.right;
 var height = 400 - margins.top - margins.bottom;
 
 //grab entire body
@@ -32,7 +32,7 @@ g.append("text")
     //characteristics
     .attr("font-size", "12px")
     .attr("text-anchor", "middle")
-    .text("Month");
+    .text("First Name");
 
 //define y axis-label
 g.append("text")
@@ -44,7 +44,7 @@ g.append("text")
     .attr("fons-size", "12px")
     .attr("text-anchor", "middle")
     .attr("transform", "rotate(-90)")
-    .text("Profit");
+    .text("Victory Points");
 
 //========================Data Loading=======================
 /* Load the raw data file, anything that's local gets worked with within this async function. d3 can handle these
@@ -53,7 +53,7 @@ IMPORTANT: This call is new to D3 v5. You may need to modify code that you take 
 
 //d3.csv("data/revenues.csv").then(function(data){
 //d3.tsv("data/revenues.tsv").then(function(data){
-d3.json("data/revenues.json").then(function(data){
+d3.json("data/TuskegeeAirmen.json").then(function(data){
 
     /*first thing to do is log the data. You can check this either in your debugger (recommend JetBrains WebStorm) or
     in your browser (recommend chrome) using the developer tools */
@@ -65,8 +65,8 @@ d3.json("data/revenues.json").then(function(data){
 
     //convert to ints
     data.forEach(function(d){
-        d.revenue = +d.revenue;
-        d.profit = +d.profit;
+        //d.first_name = +d.first_name;
+        d.number_of_aerial_victory_credits = +d.number_of_aerial_victory_credits;
     });
 
     //log the data again to check it's correct format, especially if you create a new array
@@ -82,7 +82,7 @@ d3.json("data/revenues.json").then(function(data){
     /*we are mapping a set of names to the width of the viz (using index)
     eg. january => width * (0/11), february => width * (1/11),... */
     var x = d3.scaleBand() //ordinal
-        .domain(data.map(function(d){ return d.month; })) //input: months
+        .domain(data.map(function(d){ return d.rank_at_graduation; })) //input: months
         .range([0, width])                                //output
         .paddingInner(0.3)
         .paddingOuter(0.3);
@@ -91,7 +91,7 @@ d3.json("data/revenues.json").then(function(data){
     /* mapping the domain of profits to the range of height to 0.
     this is reversed because (0,0) is at the top left of the chart area, with positive y-axis pointing down */
     var y = d3.scaleLinear() //interval
-        .domain([0, d3.max(data, function(d){ return d.profit })]) //input
+        .domain([0, d3.max(data, function(d){ return d.number_of_aerial_victory_credits })]) //input
         .range([height, 0]);                                       //output
 
 
@@ -123,10 +123,10 @@ d3.json("data/revenues.json").then(function(data){
     we will need to handle not only the creation of the new rectangles, but the update or removal of old ones. */
     rects.enter()
         .append("rect")
-        .attr("y", function(d){ return y(d.profit); })
-        .attr("x", function(d){ return x(d.month); })
+        .attr("y", function(d){ return y(d.number_of_aerial_victory_credits); })
+        .attr("x", function(d){ return x(d.rank_at_graduation); })
         .attr("width", x.bandwidth)
-        .attr("height", function(d){ return height - y(d.profit); })
+        .attr("height", function(d){ return height - y(d.number_of_aerial_victory_credits); })
         .attr("fill", "grey");
 
 }).catch(function(error){ //error handling for async function
