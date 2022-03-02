@@ -2,9 +2,9 @@
     Header Here
  */
 
-var margin = { left:80, right:100, top:50, bottom:100 },
-    height = 500 - margin.top - margin.bottom, 
-    width = 800 - margin.left - margin.right;
+var margin = { left:80, right:50, top:50, bottom:100 },
+height = 400 - margin.top - margin.bottom, 
+width = 600 - margin.left - margin.right;
 
 var svg = d3.select("#chart-area")
     .append("svg")
@@ -15,10 +15,6 @@ var g = svg.append("g")
             ", " + margin.top + ")");
 
 var t = function(){ return d3.transition().duration(1000); }
-
-var parseTime = d3.timeParse("%d/%m/%Y");
-var formatTime = d3.timeFormat("%d/%m/%Y");
-var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
 // Add the line for the first time
 g.append("path")
@@ -34,7 +30,7 @@ var xLabel = g.append("text")
     .attr("x", width / 2)
     .attr("font-size", "20px")
     .attr("text-anchor", "middle")
-    .text("Time");
+    .text("Year");
 var yLabel = g.append("text")
     .attr("class", "y axisLabel")
     .attr("transform", "rotate(-90)")
@@ -42,15 +38,15 @@ var yLabel = g.append("text")
     .attr("x", -170)
     .attr("font-size", "20px")
     .attr("text-anchor", "middle")
-    .text("Price (USD)")
+    .text("Colonies Lost")
 
 // Scales
-var x = d3.scaleTime().range([0, width]);
+var x = d3.scaleLinear().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
 
 // X-axis
 var xAxisCall = d3.axisBottom()
-    .ticks(4);
+    .ticks(5);
 var xAxis = g.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height +")");
@@ -60,42 +56,51 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis");
 
+g.append("text")
+    .attr("x", (width / 2))             
+    .attr("y", -30)
+    .style("font-size", "16px") 
+    .attr("text-anchor", "middle")  
+    .style("text-decoration", "underline")  
+    .text("American Bee Colony Turnover");
+
 // Set event callbacks and listeners
-$("#coin-select").on("change", update)
 $("#var-select").on("change", update)
 
-// Add jQuery UI slider
-$("#date-slider").slider({
-    range: true,
-    max: parseTime("31/10/2017").getTime(),
-    min: parseTime("12/5/2013").getTime(),
-    step: 86400000, // One day
-    values: [parseTime("12/5/2013").getTime(), parseTime("31/10/2017").getTime()],
-    slide: function(event, ui){
-        $("#dateLabel1").text(formatTime(new Date(ui.values[0])));
-        $("#dateLabel2").text(formatTime(new Date(ui.values[1])));
-        update();
+d3.json("data/bees.json").then(function(data){
+
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
     }
-});
 
-d3.json("data/coins.json").then(function(data){
-    // console.log(data);
+    var states = data.map((d) => {return d.state;});
+    var unique_states = states.filter(onlyUnique);
+    const average = (array) => array.reduce((a,b) => a+b) / array.length;
 
-    // Prepare and clean data
-    filteredData = {};
-    for (var coin in data) { //each coin type
-        if (!data.hasOwnProperty(coin)) { //if there is no data for that
-            continue;
+    filteredData = {}
+    for (var state in unique_states) {
+        //dataByStates
+        dataByStates = data.filter(jsonObject => jsonObject.state == unique_states[state] 
+                         && jsonObject.colony_lost != "NA");
+        console.log(dataByStates);
+        var map = {2015 : [], 2016 : [],2017 : [],2018 : [],2019 : [],2020 : [],2021 : []};
+        dataByStates.forEach(function(d){
+            var curr_year = d.year;
+            map[curr_year].push(d.colony_lost);
+        });
+        
+        var dic = [];
+        for(var y in map)
+        {
+            var colony_lost_average = 0;
+            if(map[y].length > 0)
+                colony_lost_average = average(map[y]);
+
+            dic.push({"year" : parseInt(y), "colony_lost" : colony_lost_average});
         }
-        filteredData[coin] = data[coin].filter(function(d){ //add new array with all present prices to new data
-            return !(d["price_usd"] == null)
-        });
-        filteredData[coin].forEach(function(d){ //convert
-            d["price_usd"] = +d["price_usd"];
-            d["24h_vol"] = +d["24h_vol"];
-            d["market_cap"] = +d["market_cap"];
-            d["date"] = parseTime(d["date"])
-        });
+        console.log(dic);
+        filteredData[unique_states[state]] = dic;
+        
     }
 
     console.log(filteredData);
@@ -108,18 +113,11 @@ d3.json("data/coins.json").then(function(data){
 
 function update() {
 
-    // Filter data based on selections
-    var coin = $("#coin-select").val(),
-        yValue = $("#var-select").val(),
-        sliderValues = $("#date-slider").slider("values");
-    var dataTimeFiltered = filteredData[coin].filter(function(d){
-        return ((d.date >= sliderValues[0]) && (d.date <= sliderValues[1]))
-    });
-
+    var curr_state = $("#var-select").val();
+    console.log(curr_state);
     // Update scales
-    x.domain(d3.extent(dataTimeFiltered, function(d){ return d.date; }));
-    y.domain([d3.min(dataTimeFiltered, function(d){ return d[yValue]; }) / 1.005, 
-        d3.max(dataTimeFiltered, function(d){ return d[yValue]; }) * 1.005]);
+    x.domain(d3.extent(filteredData[curr_state], function(d){ return d.year; }));
+    y.domain(d3.extent(filteredData[curr_state], function(d){ return d.colony_lost; }));
 
     // Fix for format values
     var formatSi = d3.format(".2s");
@@ -165,35 +163,18 @@ function update() {
         .attr("width", width)
         .attr("height", height)
         .on("mouseover", function() { focus.style("display", null); })
-        .on("mouseout", function() { focus.style("display", "none"); })
-        .on("mousemove", mousemove);
-        
-    function mousemove() {
-        var x0 = x.invert(d3.mouse(this)[0]),
-            i = bisectDate(dataTimeFiltered, x0, 1),
-            d0 = dataTimeFiltered[i - 1],
-            d1 = dataTimeFiltered[i],
-            d = (d1 && d0) ? (x0 - d0.date > d1.date - x0 ? d1 : d0) : 0;
-        focus.attr("transform", "translate(" + x(d.date) + "," + y(d[yValue]) + ")");
-        focus.select("text").text(function() { return d3.format("$,")(d[yValue].toFixed(2)); });
-        focus.select(".x-hover-line").attr("y2", height - y(d[yValue]));
-        focus.select(".y-hover-line").attr("x2", -x(d.date));
-    }
+        .on("mouseout", function() { focus.style("display", "none"); });
 
     // Path generator
     line = d3.line()
-        .x(function(d){ return x(d.date); })
-        .y(function(d){ return y(d[yValue]); });
+        .x(function(d){ return x(d.year); })
+        .y(function(d){ return y(d.colony_lost); });
 
     // Update our line path
     g.select(".line")
         .transition(t)
-        .attr("d", line(dataTimeFiltered));
+        .attr("d", line(filteredData[curr_state]));
 
-    // Update y-axis label
-    var newText = (yValue == "price_usd") ? "Price (USD)" :
-        ((yValue == "market_cap") ?  "Market Capitalization (USD)" : "24 Hour Trading Volume (USD)")
-    yLabel.text(newText);
 }
 
 

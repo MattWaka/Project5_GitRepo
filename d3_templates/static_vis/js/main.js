@@ -6,10 +6,10 @@ be animated/updated etc. Typically, you will put things here that are not depend
 
 // define margins in pixels. Use these to define total space allotted for this chart, within the chart area.
 // For multiple charts, you can define multiple margin arrays
-var margins = { left:100, right:40, top:50, bottom:150};
+var margins = { left:100, right:20, top:50, bottom:150};
 
 //define chart sizes
-var width = 1000 - margins.left - margins.right;
+var width = 800 - margins.left - margins.right;
 var height = 400 - margins.top - margins.bottom;
 
 //grab entire body
@@ -30,9 +30,9 @@ g.append("text")
     .attr("x", width / 2) //centered
     .attr("y", height + (margins.bottom / 2))
     //characteristics
-    .attr("font-size", "12px")
+    .attr("font-size", "14px")
     .attr("text-anchor", "middle")
-    .text("First Name");
+    .text("Rank at Graduation");
 
 //define y axis-label
 g.append("text")
@@ -41,11 +41,18 @@ g.append("text")
     .attr("x", -height / 2)
     .attr("y", -60)
     //characteristics
-    .attr("fons-size", "12px")
+    .attr("fons-size", "20px")
     .attr("text-anchor", "middle")
     .attr("transform", "rotate(-90)")
     .text("Victory Points");
 
+    g.append("text")
+    .attr("x", (width / 2))             
+    .attr("y", 0)
+    .style("font-size", "16px") 
+    .attr("text-anchor", "middle")  
+    .style("text-decoration", "underline")  
+    .text("Lowest-Ranked Means Most-Expendable");
 //========================Data Loading=======================
 /* Load the raw data file, anything that's local gets worked with within this async function. d3 can handle these
 three file types; csv, tsv, and json.

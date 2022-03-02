@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="description" content="">
-        <title>CoinStats</title>
+        <title>Bee Colonies Lost</title>
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <!-- jQuery UI CSS -->
@@ -13,37 +13,65 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/style.css">
     </head>
-
+    
     <body>
         <nav class="navbar navbar-default">
             <div class="container">
-                <a class="navbar-brand" href="#"><img id="logo" src="img/logo.png"></a>      
+                <a class="navbar-brand" href="#"><img id="logo" src="img/bee.png"></a>      
             </div>
         </nav>
-
         <!-- Bootstrap grid setup -->
         <div class="container">
             <div id="selections" class="row">
                 <div class="col-md-4">
-                    <div id="slider-div">
-                        <label>Date: <span id="dateLabel1">12/05/2013</span> - <span id="dateLabel2">31/10/2017</span></label>
-                        <div id="date-slider"></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <select id="coin-select" class="form-control">
-                        <option selected value="bitcoin">Bitcoin</option>
-                        <option value="ethereum">Ethereum</option>
-                        <option value="bitcoin_cash">Bitcoin Cash</option>
-                        <option value="litecoin">Litecoin</option>
-                        <option value="ripple">Ripple</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
                     <select id="var-select" class="form-control">
-                        <option selected value="price_usd">Price in dollars</option>
-                        <option value="market_cap">Market capitalization</option>
-                        <option value="24h_vol">24 hour trading volume</option>
+                        <option selected value="Alabama">Alabama</option>
+                        <option value="Arizona">Arizona</option>
+                        <option value="Arkansas">Arkansas</option>
+                        <option value="California">California</option>
+                        <option value="Colorado">Colorado</option>
+                        <option value="Connecticut">Connecticut</option>
+                        <option value="Florida">Florida</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Hawaii">Hawaii</option>
+                        <option value="Idaho">Idaho</option>
+                        <option value="Illinois">Illinois</option>
+                        <option value="Indiana">Indiana</option>
+                        <option value="Iowa">Iowa</option>
+                        <option value="Kansas">Kansas</option>
+                        <option value="Kentucky">Kentucky</option>
+                        <option value="Louisiana">Louisiana</option>
+                        <option value="Maine">Maine</option>
+                        <option value="Maryland">Maryland</option>
+                        <option value="Massachusetts">Massachusetts</option>
+                        <option value="Michigan">Michigan</option>
+                        <option value="Minnesota">Minnesota</option>
+                        <option value="Mississippi">Mississippi</option>
+                        <option value="Missouri">Missouri</option>
+                        <option value="Montana">Montana</option>
+                        <option value="Nebraska">Nebraska</option>
+                        <option value="New Jersey">New Jersey</option>
+                        <option value="New Mexico">New Mexico</option>
+                        <option value="New York">New York</option>
+                        <option value="North Carolina">North Carolina</option>
+                        <option value="North Dakota">North Dakota</option>
+                        <option value="Ohio">Ohio</option>
+                        <option value="Oklahoma">Oklahoma</option>
+                        <option value="Oregon">Oregon</option>
+                        <option value="Other States">Other States</option>
+                        <option value="Pennsylvania">Pennsylvania</option>
+                        <option value="South Carolina">South Carolina</option>
+                        <option value="South Dakota">South Dakota</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Texas">Texas</option>
+                        <option value="United States">United States</option>
+                        <option value="Utah">Utah</option>
+                        <option value="Vermont">Vermont</option>
+                        <option value="Virginia">Virginia</option>
+                        <option value="Washington">Washington</option>
+                        <option value="West Virginia">West Virginia</option>
+                        <option value="Wisconsin">Wisconsin</option>
+                        <option value="Wyoming">Wyoming</option>
                     </select>
                 </div>
             </div>
@@ -51,7 +79,9 @@
                 <div id="chart-area"></div>  
             </div>
         </div>
-
+    </body>
+    
+    <body>
     <!-- External JS libraries -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -59,6 +89,20 @@
     <script src="js/d3.min.js"></script>
     <!-- Custom JS -->
     <script src="js/main.js"></script>
+
+    <div class="container">
+        <div class="row">
+            <div class="column">
+                <p>
+                    Since beekeepers began noticing higher losses in their colonies in the early 2000s, 
+                    agricultural agencies, researchers, and the beekeeping industry have been working together 
+                    to understand why and develop best management practices to reduce their losses. 
+        (https://ocm.auburn.edu/newsroom/news_articles/2021/06/241121-honey-bee-annual-loss-survey-results.php)
+                </p>
+            </div>
+            <div id="chart-area"></div>
+        </div>
+    </div>
 
     </body>
 </html>
