@@ -106,9 +106,6 @@ d3.json("data/coins.json").then(function(data){
     update();
 })
 
-<<<<<<< Updated upstream
-function update() {
-=======
 function updateChart()
 {
     
@@ -127,7 +124,6 @@ function updateSimulation() {
     
     */
 
->>>>>>> Stashed changes
 
     // Filter data based on selections
     var coin = $("#coin-select").val(),
