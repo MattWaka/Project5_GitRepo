@@ -58,13 +58,41 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis");
 
-    // Set event callbacks and listeners
-    var numTrials = 0;
+// Set event callbacks and listeners
+var numTrials = 0;
+var numSim = 0, percentBet = 0, winMulti = 0, BlowupChance = 0, percentBlowup = 0, Binsize = 0, kerenelEp = 0; 
 $("#numTrialsFromGUI").on("change",  function(d){
-numTrials = this.value;
-console.log(numTrials);
+    numTrials = this.value;
+    console.log("Num of Trials: " + numTrials);
 });
-
+$("#numSimsFromGUI").on("change",  function(d){
+    numSim = this.value;
+    console.log("Num of Sim: " + numSim);
+});
+$("#percentToBetFromGUI").on("change",  function(d){
+    percentBet = this.value;
+    console.log("Bet %: " + percentBet);
+});
+$("#winMultiplierFromGUI").on("change",  function(d){
+    winMulti = this.value;
+    console.log("Win Multiplier: " + winMulti);
+});
+$("#chanceOfBlowupFromGUI").on("change",  function(d){
+    BlowupChance = this.value;
+    console.log("Chance of Blowup" + BlowupChance);
+});   
+$("#percentOfBetToBlowupFromGUI").on("change",  function(d){
+    percentBlowup = this.value;
+    console.log("Percent of Blowup: " + percentBlowup);
+});  
+$("#binNumberFromGUI").on("change",  function(d){
+    Binsize = this.value;
+    console.log("Num of Bin: " + Binsize);
+});  
+$("#kernelEpFromGUI").on("change",  function(d){
+    kerenelEp = this.value;
+    console.log("Kernel Ep: " + kerenelEp);
+});  
 
 function updateChart()
 {
