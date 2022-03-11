@@ -7,6 +7,13 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "Project6",
+            "url": "http://localhost:8000/d3_templates/static_vis/Proj6.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
             "name": "static_vis",
             "url": "http://localhost:8000/d3_templates/static_vis/index.html",
             "webRoot": "${workspaceFolder}"
