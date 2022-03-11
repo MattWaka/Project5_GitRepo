@@ -33,16 +33,14 @@ var xLabel = g.append("text")
     .attr("y", height + 50)
     .attr("x", width / 2)
     .attr("font-size", "20px")
-    .attr("text-anchor", "middle")
-    .text("Time");
+    .attr("text-anchor", "middle");
 var yLabel = g.append("text")
     .attr("class", "y axisLabel")
     .attr("transform", "rotate(-90)")
     .attr("y", -60)
     .attr("x", -170)
     .attr("font-size", "20px")
-    .attr("text-anchor", "middle")
-    .text("Price (USD)")
+    .attr("text-anchor", "middle");
 
 // Scales
 var x = d3.scaleTime().range([0, width]);
@@ -60,51 +58,13 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis");
 
-// Set event callbacks and listeners
-$("#coin-select").on("change", update)
-$("#var-select").on("change", update)
-
-// Add jQuery UI slider
-$("#date-slider").slider({
-    range: true,
-    max: parseTime("31/10/2017").getTime(),
-    min: parseTime("12/5/2013").getTime(),
-    step: 86400000, // One day
-    values: [parseTime("12/5/2013").getTime(), parseTime("31/10/2017").getTime()],
-    slide: function(event, ui){
-        $("#dateLabel1").text(formatTime(new Date(ui.values[0])));
-        $("#dateLabel2").text(formatTime(new Date(ui.values[1])));
-        update();
-    }
+    // Set event callbacks and listeners
+    var numTrials = 0;
+$("#numTrialsFromGUI").on("change",  function(d){
+numTrials = this.value;
+console.log(numTrials);
 });
 
-d3.json("data/coins.json").then(function(data){
-    // console.log(data);
-
-    // Prepare and clean data
-    filteredData = {};
-    for (var coin in data) { //each coin type
-        if (!data.hasOwnProperty(coin)) { //if there is no data for that
-            continue;
-        }
-        filteredData[coin] = data[coin].filter(function(d){ //add new array with all present prices to new data
-            return !(d["price_usd"] == null)
-        });
-        filteredData[coin].forEach(function(d){ //convert
-            d["price_usd"] = +d["price_usd"];
-            d["24h_vol"] = +d["24h_vol"];
-            d["market_cap"] = +d["market_cap"];
-            d["date"] = parseTime(d["date"])
-        });
-    }
-
-    console.log(filteredData);
-
-    // we do not run d3.interval because we dont have any time-based automated tasks.
-
-    // Run the visualization for the first time
-    update();
-})
 
 function updateChart()
 {
