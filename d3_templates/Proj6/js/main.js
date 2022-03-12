@@ -116,6 +116,7 @@ function updateChart()
 
 function updateSimulation() {
 
+    //Calculate
     var capital_amount = [];
     for(i = 0 ; i < numSim; ++i)
     {
@@ -134,7 +135,7 @@ function updateSimulation() {
                 bet = bet * winMulti;
             }
             money = money + bet;
-            console.log("Capital Money : " + money);
+            //console.log("Capital Money : " + money);
         }
         capital_amount.push(Math.floor(money));
     }
