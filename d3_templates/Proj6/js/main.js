@@ -35,12 +35,11 @@ var t = function(){ return d3.transition().duration(1000); }
 // var yAxis = g.append("g")
 //     .attr("class", "y axis");
 
-// NEW STUFF
 var capital_amount = [];
 
  // add the x Axis
  var x = d3.scaleLinear()
- .domain([0, 500])
+ .domain([-100, 500])
  .range([0, width]);
 var xAxis = g.append("g")
 .attr("transform", "translate(0," + height + ")")
@@ -90,16 +89,7 @@ var curve = g
 );
 
 // update the chart
-curve
-.datum(density)
-.transition()
-.duration(1000)
-.attr("d",  d3.line()
-  .curve(d3.curveBasis)
-    .x(function(d) { return x(d[0]); })
-    .y(function(d) { return y(d[1]); })
-);
-// NEW STUFF END
+updateChart();
     
 // Set event callbacks and listeners
 $("#numTrialsFromGUI").on("change",  function(d){
@@ -151,7 +141,7 @@ $("#kernelEpFromGUI").on("change",  function(d){
 
 function updateChart()
 {
-    kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(Binsize))
+    kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize))
     density =  kde(capital_amount)
     console.log(Binsize)
     console.log(density)
@@ -162,7 +152,7 @@ function updateChart()
     }));
 
     // update x-axis
-    x.domain([0, maxX * 1.25]);
+    x.domain([-100, maxX + 500]);
     xAxisCall.scale(x);
     xAxis.transition(t()).call(xAxisCall);
 
@@ -215,7 +205,9 @@ function updateSimulation() {
 function kernelDensityEstimator(kernel, X) {
     return function(V) {
       return X.map(function(x) {
-        return [x, d3.mean(V, function(v) { return kernel(x - v); })];
+        return [x, d3.mean(V, function(v) { 
+            var temp2 = v;
+            return kernel(x - temp2); })];
       });
     };
   }
