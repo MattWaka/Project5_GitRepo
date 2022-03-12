@@ -16,49 +16,41 @@ var g = svg.append("g")
 
 var t = function(){ return d3.transition().duration(1000); }
 
-var parseTime = d3.timeParse("%d/%m/%Y");
-var formatTime = d3.timeFormat("%d/%m/%Y");
-var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-
 // Add the line for the first time
-g.append("path")
-    .attr("class", "line")
-    .attr("fill", "none")
-    .attr("stroke", "grey")
-    .attr("stroke-width", "3px");
-
-// Labels
-var xLabel = g.append("text")
-    .attr("class", "x axisLabel")
-    .attr("y", height + 50)
-    .attr("x", width / 2)
-    .attr("font-size", "20px")
-    .attr("text-anchor", "middle");
-var yLabel = g.append("text")
-    .attr("class", "y axisLabel")
-    .attr("transform", "rotate(-90)")
-    .attr("y", -60)
-    .attr("x", -170)
-    .attr("font-size", "20px")
-    .attr("text-anchor", "middle");
-
-// Scales
-var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
+// g.append("path")
+//     .attr("class", "line")
+//     .attr("fill", "none")
+//     .attr("stroke", "grey")
+//     .attr("stroke-width", "3px");
 
 // X-axis
-var xAxisCall = d3.axisBottom()
-    .ticks(4);
-var xAxis = g.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height +")");
+// var xAxisCall = d3.axisBottom()
+//     .ticks(4);
+// var xAxis = g.append("g")
+//     .attr("class", "x axis")
+//     .attr("transform", "translate(0," + height +")");
 
-// Y-axis
-var yAxisCall = d3.axisLeft()
-var yAxis = g.append("g")
-    .attr("class", "y axis");
+// // Y-axis
+// var yAxisCall = d3.axisLeft()
+// var yAxis = g.append("g")
+//     .attr("class", "y axis");
 
-// Set event callbacks and listeners
+// NEW STUFF
+var capital_amount = [];
+
+ // add the x Axis
+ var x = d3.scaleLinear()
+ .range([0, width]);
+svg.append("g")
+.attr("transform", "translate(0," + height + ")")
+.call(d3.axisBottom(x));
+
+// add the y Axis
+var y = d3.scaleLinear()
+ .range([height, 0])
+svg.append("g")
+.call(d3.axisLeft(y));
+
 var numTrials = $("#numTrialsFromGUI").val(); 
 var numSim = $("#numSimsFromGUI").val(); 
 var percentBet = $("#percentToBetFromGUI").val();
@@ -67,6 +59,33 @@ var BlowupChance = $("#chanceOfBlowupFromGUI").val();
 var percentBlowup = $("#percentOfBetToBlowupFromGUI").val();
 var Binsize = $("#binNumberFromGUI").val();
 var kerenelEp = $("#kernelEpFromGUI").val();
+
+// get the initial data
+updateSimulation();
+
+// Compute kernel density estimation
+var kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize))
+var density =  kde(capital_amount)
+
+// Plot the area
+var curve = svg
+.append('g')
+.append("path")
+.attr("class", "mypath")
+.datum(density)
+.attr("fill", "#69b3a2")
+.attr("opacity", ".8")
+.attr("stroke", "#000")
+.attr("stroke-width", 1)
+.attr("stroke-linejoin", "round")
+.attr("d",  d3.line()
+.curve(d3.curveBasis)
+.x(function(d) { return x(d[1]); })
+.y(function(d) { return y(d[0]); })
+);
+// NEW STUFF END
+    
+// Set event callbacks and listeners
 $("#numTrialsFromGUI").on("change",  function(d){
     numTrials = this.value;
     console.log("Num of Trials: " + numTrials);
@@ -123,7 +142,7 @@ function updateChart()
 function updateSimulation() {
 
     //Calculate
-    var capital_amount = [];
+    capital_amount = [];
     for(i = 0 ; i < numSim; ++i)
     {
         var money = 100;
