@@ -183,15 +183,7 @@ function updateChart()
           .y(function(d) { return y(d[1]); })
       );
 
-      g.selectAll("capital_amount")
-      .datum(density)
-      .append("circle")
-      .attr("cx", function(d){return(x(d)  - Math.random()*jitter_width )})
-      .attr("cy", function(d){return(y(jitter_height))})
-      .attr("r", 2)
-      .style("fill", "black")
-      .attr("stroke", "black")
-      .style("opacity", 0.2);
+      Jitter();
 }
 
 
@@ -241,8 +233,9 @@ function kernelDensityEstimator(kernel, X) {
 
 function Jitter()
 {
-    g.selectAll("capital_amount")
-    .datum(density)
+    g.selectAll("dot")
+    .data(capital_amount)
+    .enter()
     .append("circle")
     .attr("cx", function(d){return(x(d) - Math.random()*jitter_width )})
     .attr("cy", function(d){return(y(jitter_height))})
