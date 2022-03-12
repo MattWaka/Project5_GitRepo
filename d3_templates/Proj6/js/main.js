@@ -136,7 +136,7 @@ function updateSimulation() {
             }
             money = money + bet;
         }
-        //console.log("Capital Money : " + money);
+        console.log("Capital Money : " + money);
         capital_amount.push(Math.floor(money));
     }
 
