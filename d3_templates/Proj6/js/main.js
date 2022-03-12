@@ -47,12 +47,13 @@ var xAxis = g.append("g")
 .call(d3.axisBottom(x));
 
 var xAxisCall = d3.axisBottom();
+var yAxisCall = d3.axisLeft();
 
 // add the y Axis
 var y = d3.scaleLinear()
  .range([height, 0])
  .domain([0, 0.01]);
-g.append("g")
+var yAxis = g.append("g")
 .call(d3.axisLeft(y));
 
 var numTrials = $("#numTrialsFromGUI").val(); 
@@ -157,7 +158,9 @@ function updateChart()
     console.log(density)
 
     var maxX = Math.max(...capital_amount);
-    //var maxY = Math.max();
+    var maxY = Math.max(...density.map(function(x) {
+        return x[1];
+    }));
 
     // update x-axis
     x.domain([0, maxX * 1.25]);
@@ -165,7 +168,9 @@ function updateChart()
     xAxis.transition(t()).call(xAxisCall);
 
     // update y-axis
-    y.domain()
+    y.domain([0, maxY]);
+    yAxisCall.scale(y);
+    yAxis.transition(t()).call(yAxisCall);
 
     // update the chart
     curve
