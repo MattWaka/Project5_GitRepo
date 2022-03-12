@@ -42,15 +42,17 @@ var capital_amount = [];
  var x = d3.scaleLinear()
  .domain([0, 500])
  .range([0, width]);
-svg.append("g")
+var xAxis = g.append("g")
 .attr("transform", "translate(0," + height + ")")
 .call(d3.axisBottom(x));
+
+var xAxisCall = d3.axisBottom();
 
 // add the y Axis
 var y = d3.scaleLinear()
  .range([height, 0])
  .domain([0, 0.01]);
-svg.append("g")
+g.append("g")
 .call(d3.axisLeft(y));
 
 var numTrials = $("#numTrialsFromGUI").val(); 
@@ -70,7 +72,7 @@ var kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize)
 var density =  kde(capital_amount)
 
 // Plot the area
-var curve = svg
+var curve = g
 .append('g')
 .append("path")
 .attr("class", "mypath")
@@ -156,7 +158,11 @@ function updateChart()
     var min = Math.min(...capital_amount);
     var max = Math.max(...capital_amount);
 
-    x.domain([min, max]);
+    // update x-axis
+    x.domain([-100, max]);
+    xAxisCall.scale(x);
+    xAxis.transition(t()).call(xAxisCall);
+
     // update the chart
     curve
       .datum(density)
