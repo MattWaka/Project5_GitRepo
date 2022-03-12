@@ -67,6 +67,15 @@ var kerenelEp = $("#kernelEpFromGUI").val();
 // get the initial data
 updateSimulation();
 
+var jitter_height = d3.y.range();
+var jitter_width = 10;
+
+  // Features of the histogram
+  var histogram = d3.histogram()
+        .domain(y.domain())
+        .thresholds(y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
+        .value(d => d);
+
 // Compute kernel density estimation
 var kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize))
 var density =  kde(capital_amount)
