@@ -2,9 +2,9 @@
     Header Here
  */
 
-var margin = { left:80, right:100, top:50, bottom:100 },
+var margin = { left:60, right:100, top:50, bottom:100 },
     height = 500 - margin.top - margin.bottom, 
-    width = 800 - margin.left - margin.right;
+    width = 900 - margin.left - margin.right;
 
 var svg = d3.select("#chart-area")
     .append("svg")
@@ -40,6 +40,7 @@ var capital_amount = [];
 
  // add the x Axis
  var x = d3.scaleLinear()
+ .domain([0, 1000])
  .range([0, width]);
 svg.append("g")
 .attr("transform", "translate(0," + height + ")")
@@ -48,6 +49,7 @@ svg.append("g")
 // add the y Axis
 var y = d3.scaleLinear()
  .range([height, 0])
+ .domain([0, 0.01]);
 svg.append("g")
 .call(d3.axisLeft(y));
 
@@ -80,8 +82,19 @@ var curve = svg
 .attr("stroke-linejoin", "round")
 .attr("d",  d3.line()
 .curve(d3.curveBasis)
-.x(function(d) { return x(d[1]); })
-.y(function(d) { return y(d[0]); })
+.x(function(d) { return x(d[0]); })
+.y(function(d) { return y(d[1]); })
+);
+
+// update the chart
+curve
+.datum(density)
+.transition()
+.duration(1000)
+.attr("d",  d3.line()
+  .curve(d3.curveBasis)
+    .x(function(d) { return x(d[0]); })
+    .y(function(d) { return y(d[1]); })
 );
 // NEW STUFF END
     
@@ -176,7 +189,8 @@ function kernelDensityEstimator(kernel, X) {
   }
   function kernelEpanechnikov(k) {
     return function(v) {
-      return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+        var temp = Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+      return temp;
     };
   }
 
