@@ -59,8 +59,14 @@ var yAxis = g.append("g")
     .attr("class", "y axis");
 
 // Set event callbacks and listeners
-var numTrials = 0;
-var numSim = 0, percentBet = 0, winMulti = 0, BlowupChance = 0, percentBlowup = 0, Binsize = 0, kerenelEp = 0; 
+var numTrials = $("#numTrialsFromGUI").slider("values"); 
+var numSim = $("#numSimsFromGUI").slider("values"); 
+var percentBet = $("#percentToBetFromGUI").slider("values");
+var winMulti = $("#winMultiplierFromGUI").slider("values");
+var BlowupChance = $("#chanceOfBlowupFromGUI").slider("values");
+var percentBlowup = $("#percentOfBetToBlowupFromGUI").slider("values");
+var Binsize = $("#binNumberFromGUI").slider("values");
+var kerenelEp = $("#kernelEpFromGUI").slider("values");
 $("#numTrialsFromGUI").on("change",  function(d){
     numTrials = this.value;
     console.log("Num of Trials: " + numTrials);
