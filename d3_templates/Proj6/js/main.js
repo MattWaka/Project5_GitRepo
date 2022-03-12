@@ -150,7 +150,7 @@ $("#kernelEpFromGUI").on("change",  function(d){
 
 function updateChart()
 {
-    RemoveJitter();
+    //RemoveJitter();
 
     kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize))
     density =  kde(capital_amount)
@@ -234,11 +234,14 @@ function kernelDensityEstimator(kernel, X) {
 function Jitter()
 {
     g.selectAll("dot")
+    .remove();
+
+    g.selectAll("dot")
     .data(capital_amount)
     .enter()
     .append("circle")
     .attr("cx", function(d){return(x(d) - Math.random()*jitter_width )})
-    .attr("cy", function(d){return(y(jitter_height))})
+    .attr("cy", function(d){return(Math.random()*jitter_height[0])})
     .attr("r", 2)
     .style("fill", "black")
     .attr("stroke", "black")
@@ -247,5 +250,7 @@ function Jitter()
 
 function RemoveJitter()
 {
-    g.selectAll("dot").remove();
+    d3.select("dot").remove();
+    //g.selectAll("dot").remove();
+    //dots.remove();
 }
