@@ -2,7 +2,7 @@
     Header Here
  */
 
-var margin = { left:60, right:100, top:50, bottom:100 },
+var margin = { left:80, right:80, top:50, bottom:100 },
     height = 500 - margin.top - margin.bottom, 
     width = 900 - margin.left - margin.right;
 
@@ -40,17 +40,19 @@ var capital_amount = [];
 
  // add the x Axis
  var x = d3.scaleLinear()
- .domain([0, 1000])
+ .domain([0, 500])
  .range([0, width]);
-svg.append("g")
+var xAxis = g.append("g")
 .attr("transform", "translate(0," + height + ")")
 .call(d3.axisBottom(x));
+
+var xAxisCall = d3.axisBottom();
 
 // add the y Axis
 var y = d3.scaleLinear()
  .range([height, 0])
  .domain([0, 0.01]);
-svg.append("g")
+g.append("g")
 .call(d3.axisLeft(y));
 
 var numTrials = $("#numTrialsFromGUI").val(); 
@@ -70,7 +72,7 @@ var kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize)
 var density =  kde(capital_amount)
 
 // Plot the area
-var curve = svg
+var curve = g
 .append('g')
 .append("path")
 .attr("class", "mypath")
@@ -149,7 +151,32 @@ $("#kernelEpFromGUI").on("change",  function(d){
 
 function updateChart()
 {
-    
+    kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(Binsize))
+    density =  kde(capital_amount)
+    console.log(Binsize)
+    console.log(density)
+
+    var maxX = Math.max(...capital_amount);
+    //var maxY = Math.max();
+
+    // update x-axis
+    x.domain([0, maxX * 1.25]);
+    xAxisCall.scale(x);
+    xAxis.transition(t()).call(xAxisCall);
+
+    // update y-axis
+    y.domain()
+
+    // update the chart
+    curve
+      .datum(density)
+      .transition()
+      .duration(1000)
+      .attr("d",  d3.line()
+        .curve(d3.curveBasis)
+          .x(function(d) { return x(d[0]); })
+          .y(function(d) { return y(d[1]); })
+      );
 }
 
 
