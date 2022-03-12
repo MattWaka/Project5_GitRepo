@@ -155,13 +155,16 @@ function updateChart()
     console.log(Binsize)
     console.log(density)
 
-    var min = Math.min(...capital_amount);
-    var max = Math.max(...capital_amount);
+    var maxX = Math.max(...capital_amount);
+    //var maxY = Math.max();
 
     // update x-axis
-    x.domain([-100, max]);
+    x.domain([0, maxX * 1.25]);
     xAxisCall.scale(x);
     xAxis.transition(t()).call(xAxisCall);
+
+    // update y-axis
+    y.domain()
 
     // update the chart
     curve
