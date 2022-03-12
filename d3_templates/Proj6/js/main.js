@@ -71,41 +71,47 @@ $("#numTrialsFromGUI").on("change",  function(d){
     numTrials = this.value;
     console.log("Num of Trials: " + numTrials);
     updateSimulation();
+    updateChart();
 });
 $("#numSimsFromGUI").on("change",  function(d){
     numSim = this.value;
     console.log("Num of Sim: " + numSim);
     updateSimulation();
+    updateChart();
 });
 $("#percentToBetFromGUI").on("change",  function(d){
     percentBet = this.value;
     console.log("Bet %: " + percentBet);
     updateSimulation();
+    updateChart();
 });
 $("#winMultiplierFromGUI").on("change",  function(d){
     winMulti = this.value;
     console.log("Win Multiplier: " + winMulti);
     updateSimulation();
+    updateChart();
 });
 $("#chanceOfBlowupFromGUI").on("change",  function(d){
     BlowupChance = this.value;
     console.log("Chance of Blowup" + BlowupChance);
     updateSimulation();
+    updateChart();
 });   
 $("#percentOfBetToBlowupFromGUI").on("change",  function(d){
     percentBlowup = this.value;
     console.log("Percent of Blowup: " + percentBlowup);
     updateSimulation();
+    updateChart();
 });  
 $("#binNumberFromGUI").on("change",  function(d){
     Binsize = this.value;
     console.log("Num of Bin: " + Binsize);
-    updateSimulation();
+    updateChart();
 });  
 $("#kernelEpFromGUI").on("change",  function(d){
     kerenelEp = this.value;
     console.log("Kernel Ep: " + kerenelEp);
-    updateSimulation();
+    updateChart();
 });  
 
 function updateChart()
