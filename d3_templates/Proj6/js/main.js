@@ -2,7 +2,7 @@
     Header Here
  */
 
-var margin = { left:60, right:100, top:50, bottom:100 },
+var margin = { left:80, right:80, top:50, bottom:100 },
     height = 500 - margin.top - margin.bottom, 
     width = 900 - margin.left - margin.right;
 
@@ -40,7 +40,7 @@ var capital_amount = [];
 
  // add the x Axis
  var x = d3.scaleLinear()
- .domain([0, 1000])
+ .domain([0, 500])
  .range([0, width]);
 svg.append("g")
 .attr("transform", "translate(0," + height + ")")
@@ -148,7 +148,25 @@ $("#kernelEpFromGUI").on("change",  function(d){
 
 function updateChart()
 {
-    
+    kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(Binsize))
+    density =  kde(capital_amount)
+    console.log(Binsize)
+    console.log(density)
+
+    var min = Math.min(...capital_amount);
+    var max = Math.max(...capital_amount);
+
+    x.domain([min, max]);
+    // update the chart
+    curve
+      .datum(density)
+      .transition()
+      .duration(1000)
+      .attr("d",  d3.line()
+        .curve(d3.curveBasis)
+          .x(function(d) { return x(d[0]); })
+          .y(function(d) { return y(d[1]); })
+      );
 }
 
 
