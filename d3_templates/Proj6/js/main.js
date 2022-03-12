@@ -101,16 +101,29 @@ function updateChart()
 
 
 function updateSimulation() {
-/*
-    for(sumSimulations)
+
+    var capital_amount = [];
+    for(i = 0 ; i < numSim; ++i)
     {
-        for(numTrials)
+        var money = 100;
+        for(j = 0; j < numTrials; ++j)
         {
-            
+            var bet = money * percentBet / 100;
+            money = money - bet;
+            var rand_num = Math.random() * 100.0;
+            if(rand_num < BlowupChance) //blowup
+            {
+                bet = bet - bet * percentBlowup/100.0;
+            }
+            else //win
+            {
+                bet = bet * winMulti;
+            }
+            money = money + bet;
+            console.log(money);
         }
+        capital_amount.push(Math.floor(money));
     }
-    
-    */
 
 
     // Filter data based on selections
