@@ -67,7 +67,7 @@ var kerenelEp = $("#kernelEpFromGUI").val();
 // get the initial data
 updateSimulation();
 
-var jitter_height = d3.y.range();
+var jitter_height = y.range();
 var jitter_width = 10;
 
   // Features of the histogram
@@ -180,6 +180,16 @@ function updateChart()
           .x(function(d) { return x(d[0]); })
           .y(function(d) { return y(d[1]); })
       );
+
+      g.selectAll("capital_amount")
+      .datum(density)
+      .append("circle")
+      .attr("cx", function(d){return(x(d)  - Math.random()*jitter_width )})
+      .attr("cy", function(d){return(y(jitter_height))})
+      .attr("r", 2)
+      .style("fill", "black")
+      .attr("stroke", "black")
+      .style("opacity", 0.2);
 }
 
 
@@ -229,10 +239,13 @@ function kernelDensityEstimator(kernel, X) {
 
 function Jitter()
 {
-    g
-    .selectAll("capital_amount")
-    .enter()
+    g.selectAll("capital_amount")
+    .datum(density)
     .append("circle")
-    .attr("cx", function(d){return(d + x.bandwidth()/2 - Math.random()*jitterWidth )})
-    .attr("cy", function(d){return(y(d.Sepal_Length))})
+    .attr("cx", function(d){return(x(d)  - Math.random()*jitter_width )})
+    .attr("cy", function(d){return(y(jitter_height))})
+    .attr("r", 2)
+    .style("fill", "black")
+    .attr("stroke", "black")
+    .style("opacity", 0.2);
 }
