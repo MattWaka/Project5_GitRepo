@@ -2,9 +2,9 @@
     Header Here
  */
 
-var margin = { left:80, right:100, top:50, bottom:100 },
+var margin = { left:60, right:100, top:50, bottom:100 },
     height = 500 - margin.top - margin.bottom, 
-    width = 800 - margin.left - margin.right;
+    width = 900 - margin.left - margin.right;
 
 var svg = d3.select("#chart-area")
     .append("svg")
@@ -86,15 +86,17 @@ var curve = svg
 .y(function(d) { return y(d[1]); })
 );
 
+// update the chart
 curve
-      .datum(density)
-      .transition()
-      .duration(1000)
-      .attr("d",  d3.line()
-        .curve(d3.curveBasis)
-          .x(function(d) { return x(d[0]); })
-          .y(function(d) { return y(d[1]); })
-      );
+.datum(density)
+.transition()
+.duration(1000)
+.attr("d",  d3.line()
+  .curve(d3.curveBasis)
+    .x(function(d) { return x(d[0]); })
+    .y(function(d) { return y(d[1]); })
+);
+
 // NEW STUFF END
     
 // Set event callbacks and listeners
@@ -188,7 +190,8 @@ function kernelDensityEstimator(kernel, X) {
   }
   function kernelEpanechnikov(k) {
     return function(v) {
-      return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+        var temp = Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+      return temp;
     };
   }
 
