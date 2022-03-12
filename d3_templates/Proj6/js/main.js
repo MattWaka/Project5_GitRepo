@@ -64,34 +64,42 @@ var numSim = 0, percentBet = 0, winMulti = 0, BlowupChance = 0, percentBlowup = 
 $("#numTrialsFromGUI").on("change",  function(d){
     numTrials = this.value;
     console.log("Num of Trials: " + numTrials);
+    updateSimulation();
 });
 $("#numSimsFromGUI").on("change",  function(d){
     numSim = this.value;
     console.log("Num of Sim: " + numSim);
+    updateSimulation();
 });
 $("#percentToBetFromGUI").on("change",  function(d){
     percentBet = this.value;
     console.log("Bet %: " + percentBet);
+    updateSimulation();
 });
 $("#winMultiplierFromGUI").on("change",  function(d){
     winMulti = this.value;
     console.log("Win Multiplier: " + winMulti);
+    updateSimulation();
 });
 $("#chanceOfBlowupFromGUI").on("change",  function(d){
     BlowupChance = this.value;
     console.log("Chance of Blowup" + BlowupChance);
+    updateSimulation();
 });   
 $("#percentOfBetToBlowupFromGUI").on("change",  function(d){
     percentBlowup = this.value;
     console.log("Percent of Blowup: " + percentBlowup);
+    updateSimulation();
 });  
 $("#binNumberFromGUI").on("change",  function(d){
     Binsize = this.value;
     console.log("Num of Bin: " + Binsize);
+    updateSimulation();
 });  
 $("#kernelEpFromGUI").on("change",  function(d){
     kerenelEp = this.value;
     console.log("Kernel Ep: " + kerenelEp);
+    updateSimulation();
 });  
 
 function updateChart()
@@ -120,7 +128,7 @@ function updateSimulation() {
                 bet = bet * winMulti;
             }
             money = money + bet;
-            console.log(money);
+            console.log("Capital Money : " + money);
         }
         capital_amount.push(Math.floor(money));
     }
