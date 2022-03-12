@@ -74,9 +74,9 @@ var dots = g.selectAll("dot")
 .data(capital_amount)
 .enter()
 .append("circle")
-.attr("cx", function(d){return(x(d) - Math.random()*jitter_width )})
+.attr("cx", function(d){return(x(d) -5 + Math.random()*jitter_width )})
 .attr("cy", function(d){return(Math.random()*jitter_height[0])})
-.attr("r", 2)
+.attr("r", 0.5)
 .style("fill", "black")
 .attr("stroke", "black")
 .style("opacity", 0.2);
@@ -162,8 +162,6 @@ $("#kernelEpFromGUI").on("change",  function(d){
 
 function updateChart()
 {
-    //RemoveJitter();
-
     kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize))
     density =  kde(capital_amount)
     console.log(Binsize)
@@ -251,17 +249,10 @@ function Jitter()
     .data(capital_amount)
     .enter()
     .append("circle")
-    .attr("cx", function(d){return(x(d) - Math.random()*jitter_width )})
+    .attr("cx", function(d){return(x(d) -5 + Math.random()*jitter_width )})
     .attr("cy", function(d){return(Math.random()*jitter_height[0])})
-    .attr("r", 2)
+    .attr("r", 0.5)
     .style("fill", "black")
     .attr("stroke", "black")
     .style("opacity", 0.2);
-}
-
-function RemoveJitter()
-{
-    d3.select("dot").remove();
-    //g.selectAll("dot").remove();
-    //dots.remove();
 }
