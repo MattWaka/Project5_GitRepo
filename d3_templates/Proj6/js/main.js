@@ -67,6 +67,15 @@ var kerenelEp = $("#kernelEpFromGUI").val();
 // get the initial data
 updateSimulation();
 
+var jitter_height = y.range();
+var jitter_width = 10;
+
+  // Features of the histogram
+  var histogram = d3.histogram()
+        .domain(y.domain())
+        .thresholds(y.ticks(20))    // Important: how many bins approx are going to be made? It is the 'resolution' of the violin plot
+        .value(d => d);
+
 // Compute kernel density estimation
 var kde = kernelDensityEstimator(kernelEpanechnikov(kerenelEp), x.ticks(Binsize))
 var density =  kde(capital_amount)
@@ -171,6 +180,16 @@ function updateChart()
           .x(function(d) { return x(d[0]); })
           .y(function(d) { return y(d[1]); })
       );
+
+      g.selectAll("capital_amount")
+      .datum(density)
+      .append("circle")
+      .attr("cx", function(d){return(x(d)  - Math.random()*jitter_width )})
+      .attr("cy", function(d){return(y(jitter_height))})
+      .attr("r", 2)
+      .style("fill", "black")
+      .attr("stroke", "black")
+      .style("opacity", 0.2);
 }
 
 
@@ -216,6 +235,17 @@ function kernelDensityEstimator(kernel, X) {
         var temp = Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
       return temp;
     };
-  }
+}
 
-
+function Jitter()
+{
+    g.selectAll("capital_amount")
+    .datum(density)
+    .append("circle")
+    .attr("cx", function(d){return(x(d)  - Math.random()*jitter_width )})
+    .attr("cy", function(d){return(y(jitter_height))})
+    .attr("r", 2)
+    .style("fill", "black")
+    .attr("stroke", "black")
+    .style("opacity", 0.2);
+}
