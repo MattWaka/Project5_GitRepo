@@ -40,6 +40,7 @@ var capital_amount = [];
 
  // add the x Axis
  var x = d3.scaleLinear()
+ .domain([0, 1000])
  .range([0, width]);
 svg.append("g")
 .attr("transform", "translate(0," + height + ")")
@@ -48,6 +49,7 @@ svg.append("g")
 // add the y Axis
 var y = d3.scaleLinear()
  .range([height, 0])
+ .domain([0, 0.01]);
 svg.append("g")
 .call(d3.axisLeft(y));
 
@@ -80,9 +82,19 @@ var curve = svg
 .attr("stroke-linejoin", "round")
 .attr("d",  d3.line()
 .curve(d3.curveBasis)
-.x(function(d) { return x(d[1]); })
-.y(function(d) { return y(d[0]); })
+.x(function(d) { return x(d[0]); })
+.y(function(d) { return y(d[1]); })
 );
+
+curve
+      .datum(density)
+      .transition()
+      .duration(1000)
+      .attr("d",  d3.line()
+        .curve(d3.curveBasis)
+          .x(function(d) { return x(d[0]); })
+          .y(function(d) { return y(d[1]); })
+      );
 // NEW STUFF END
     
 // Set event callbacks and listeners
