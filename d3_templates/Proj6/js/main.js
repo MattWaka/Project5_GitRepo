@@ -70,6 +70,18 @@ updateSimulation();
 var jitter_height = y.range();
 var jitter_width = 10;
 
+var dots = g.selectAll("dot")
+.data(capital_amount)
+.enter()
+.append("circle")
+.attr("cx", function(d){return(x(d) - Math.random()*jitter_width )})
+.attr("cy", function(d){return(Math.random()*jitter_height[0])})
+.attr("r", 2)
+.style("fill", "black")
+.attr("stroke", "black")
+.style("opacity", 0.2);
+
+
   // Features of the histogram
   var histogram = d3.histogram()
         .domain(y.domain())
@@ -233,10 +245,9 @@ function kernelDensityEstimator(kernel, X) {
 
 function Jitter()
 {
-    g.selectAll("dot")
-    .remove();
+    dots.remove();
 
-    g.selectAll("dot")
+    dots = g.selectAll("dot")
     .data(capital_amount)
     .enter()
     .append("circle")
