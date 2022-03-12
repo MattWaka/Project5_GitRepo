@@ -225,6 +225,14 @@ function kernelDensityEstimator(kernel, X) {
         var temp = Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
       return temp;
     };
-  }
+}
 
-
+function Jitter()
+{
+    g
+    .selectAll("capital_amount")
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return(d + x.bandwidth()/2 - Math.random()*jitterWidth )})
+    .attr("cy", function(d){return(y(d.Sepal_Length))})
+}
