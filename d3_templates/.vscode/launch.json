@@ -7,6 +7,13 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "Project7",
+            "url": "http://localhost:8000/d3_templates/Proj7/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
             "name": "Project6",
             "url": "http://localhost:8000/d3_templates/Proj6/index.html",
             "webRoot": "${workspaceFolder}"
