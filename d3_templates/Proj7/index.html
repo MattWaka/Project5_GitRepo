@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="description" content="">
-        <title>The Blowup Game - Project 6 - CS399 Data Visualization - 2020.10.27</title>
+        <title>CoinStats</title>
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <!-- jQuery UI CSS -->
@@ -17,51 +17,34 @@
     <body>
         <nav class="navbar navbar-default">
             <div class="container">
-                <h1>The Blowup Game with $100</h1>     
+                <a class="navbar-brand" href="#"><img id="logo" src="img/logo.png"></a>      
             </div>
         </nav>
 
         <!-- Bootstrap grid setup -->
         <div class="container">
             <div id="selections" class="row">
-                <div class="form-group">
-                    <label for="formControlRange">Number of Trials: </label>
-                    <input id="numTrialsFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="numTrialsFromGUI" id="numTrialsFromGUI" min="10" max="200" value="20" onmousemove="printValue('numTrialsFromGUI','numTrialsFromGUILabel')">
+                <div class="col-md-4">
+                    <div id="slider-div">
+                        <label>Date: <span id="dateLabel1">12/05/2013</span> - <span id="dateLabel2">31/10/2017</span></label>
+                        <div id="date-slider"></div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="formControlRange">Number of Simulations: </label>
-                    <input id="numSimsFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="numSimsFromGUI" id="numSimsFromGUI" min="1" max="10000" value="1000" step="1" onmousemove="printValue('numSimsFromGUI','numSimsFromGUILabel')">
+                <div class="col-md-4">
+                    <select id="coin-select" class="form-control">
+                        <option selected value="bitcoin">Bitcoin</option>
+                        <option value="ethereum">Ethereum</option>
+                        <option value="bitcoin_cash">Bitcoin Cash</option>
+                        <option value="litecoin">Litecoin</option>
+                        <option value="ripple">Ripple</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="formControlRange">Percent to Bet (%): </label>
-                    <input id="percentToBetFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="percentToBetFromGUI" id="percentToBetFromGUI" min="1" max="100" value="10" step="1" onmousemove="printValue('percentToBetFromGUI','percentToBetFromGUILabel')">
-                </div>
-                <div class="form-group">
-                    <label for="formControlRange">Win Multiplier: </label>
-                    <input id="winMultiplierFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="winMultiplierFromGUI" id="winMultiplierFromGUI" min="1" max="4" value="1.5" step="0.1" onmousemove="printValue('winMultiplierFromGUI','winMultiplierFromGUILabel')">
-                </div>                <div class="form-group">
-                    <label for="formControlRange">Chance of Blowup (%): </label>
-                    <input id="chanceOfBlowupFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="chanceOfBlowupFromGUI" id="chanceOfBlowupFromGUI" min="1" max="100" value="10" step="1" onmousemove="printValue('chanceOfBlowupFromGUI','chanceOfBlowupFromGUILabel')">
-                </div>                
-                <div class="form-group">
-                    <label for="formControlRange">Percent of Bet to Blowup (%): </label>
-                    <input id="percentOfBetToBlowupFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="percentOfBetToBlowupFromGUI" id="percentOfBetToBlowupFromGUI" min="1" max="100" value="100" step="1" onmousemove="printValue('percentOfBetToBlowupFromGUI','percentOfBetToBlowupFromGUILabel')">
-                </div>                
-                <div class="form-group">
-                    <label for="formControlRange">Number of Bins: </label>
-                    <input id="binNumberFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="binSizeFromGUI" id="binNumberFromGUI" min="10" max="500" value="40" onmousemove="printValue('binNumberFromGUI','binNumberFromGUILabel')">
-                </div>
-                <div class="form-group">
-                    <label for="formControlRange">Kernel Epanechnikov: </label>
-                    <input id="kernelEpFromGUILabel" type="text" size="5"/>
-                    <input type="range" class="form-control-range" name="kernelEpFromGUI" id="kernelEpFromGUI" min="1" max="1000" value="20" onmousemove="printValue('kernelEpFromGUI','kernelEpFromGUILabel')">
+                <div class="col-md-4">
+                    <select id="var-select" class="form-control">
+                        <option selected value="price_usd">Price in dollars</option>
+                        <option value="market_cap">Market capitalization</option>
+                        <option value="24h_vol">24 hour trading volume</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
@@ -76,23 +59,7 @@
     <script src="js/d3.min.js"></script>
     <!-- Custom JS -->
     <script src="js/main.js"></script>
-    <script>
-        function printValue(sliderID, textbox) {
-            var x = document.getElementById(textbox);
-            var y = document.getElementById(sliderID);
-            x.value = y.value;
-        }
-        window.onload = function() {
-            printValue('numSimsFromGUI','numSimsFromGUILabel');
-            printValue('numTrialsFromGUI','numTrialsFromGUILabel');
-            printValue('percentToBetFromGUI','percentToBetFromGUILabel');
-            printValue('winMultiplierFromGUI','winMultiplierFromGUILabel');
-            printValue('chanceOfBlowupFromGUI','chanceOfBlowupFromGUILabel');
-            printValue('percentOfBetToBlowupFromGUI','percentOfBetToBlowupFromGUILabel');
-            printValue('binNumberFromGUI','binNumberFromGUILabel');
-            printValue('kernelEpFromGUI','kernelEpFromGUILabel')
-        }
-    </script>
+
     </body>
 </html>
 
