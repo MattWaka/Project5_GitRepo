@@ -1,0 +1,254 @@
+[
+  {
+    "Time": 0.02,
+    "Giant_Attacks": 0,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 0,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 0,
+    "": ""
+  },
+  {
+    "Time": 15.00598,
+    "Giant_Attacks": 2,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 0,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 2,
+    "": ""
+  },
+  {
+    "Time": 30.0039,
+    "Giant_Attacks": 5,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 0,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 5,
+    "": ""
+  },
+  {
+    "Time": 45.01036,
+    "Giant_Attacks": 6,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 0,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 6,
+    "": ""
+  },
+  {
+    "Time": 60.01169,
+    "Giant_Attacks": 6,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 3,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 9,
+    "": ""
+  },
+  {
+    "Time": 75.0134,
+    "Giant_Attacks": 13,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 4,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 17,
+    "": ""
+  },
+  {
+    "Time": 90.00164,
+    "Giant_Attacks": 13,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 4,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 17,
+    "": ""
+  },
+  {
+    "Time": 105.0103,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 5,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 25,
+    "": ""
+  },
+  {
+    "Time": 120.0053,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 7,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 27,
+    "": ""
+  },
+  {
+    "Time": 135.006,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 0,
+    "Eyeball_Attacks": 7,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 27,
+    "": ""
+  },
+  {
+    "Time": 150.0079,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 1,
+    "Eyeball_Attacks": 9,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 30,
+    "": ""
+  },
+  {
+    "Time": 165.0048,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 4,
+    "Eyeball_Attacks": 14,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 38,
+    "": ""
+  },
+  {
+    "Time": 180.0083,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 43,
+    "": ""
+  },
+  {
+    "Time": 195.0095,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 0,
+    "Total_Attacks": 43,
+    "": ""
+  },
+  {
+    "Time": 210.0008,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 2,
+    "Total_Attacks": 45,
+    "": ""
+  },
+  {
+    "Time": 225.0008,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 5,
+    "Total_Attacks": 48,
+    "": ""
+  },
+  {
+    "Time": 240.0005,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 8,
+    "Total_Attacks": 51,
+    "": ""
+  },
+  {
+    "Time": 255.0033,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 10,
+    "Total_Attacks": 53,
+    "": ""
+  },
+  {
+    "Time": 270.0054,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 11,
+    "Total_Attacks": 54,
+    "": ""
+  },
+  {
+    "Time": 285.0067,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 11,
+    "Total_Attacks": 54,
+    "": ""
+  },
+  {
+    "Time": 300.0071,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 16,
+    "Wizard_Attacks": 11,
+    "Total_Attacks": 54,
+    "": ""
+  },
+  {
+    "Time": 315.0066,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 7,
+    "Eyeball_Attacks": 17,
+    "Wizard_Attacks": 11,
+    "Total_Attacks": 55,
+    "": ""
+  },
+  {
+    "Time": 330.0068,
+    "Giant_Attacks": 20,
+    "Skeleton_Attacks": 12,
+    "Eyeball_Attacks": 17,
+    "Wizard_Attacks": 15,
+    "Total_Attacks": 64,
+    "": ""
+  },
+  {
+    "Time": 345.0089,
+    "Giant_Attacks": 21,
+    "Skeleton_Attacks": 16,
+    "Eyeball_Attacks": 24,
+    "Wizard_Attacks": 19,
+    "Total_Attacks": 80,
+    "": ""
+  },
+  {
+    "Time": 360.0041,
+    "Giant_Attacks": 24,
+    "Skeleton_Attacks": 18,
+    "Eyeball_Attacks": 29,
+    "Wizard_Attacks": 23,
+    "Total_Attacks": 94,
+    "": ""
+  },
+  {
+    "Time": 375.0027,
+    "Giant_Attacks": 24,
+    "Skeleton_Attacks": 18,
+    "Eyeball_Attacks": 31,
+    "Wizard_Attacks": 25,
+    "Total_Attacks": 98,
+    "": ""
+  },
+  {
+    "Time": 390.0035,
+    "Giant_Attacks": 24,
+    "Skeleton_Attacks": 20,
+    "Eyeball_Attacks": 31,
+    "Wizard_Attacks": 25,
+    "Total_Attacks": 100,
+    "": ""
+  },
+  {
+    "Time": 416.4358,
+    "Giant_Attacks": 26,
+    "Skeleton_Attacks": 21,
+    "Eyeball_Attacks": 31,
+    "Wizard_Attacks": 25,
+    "Total_Attacks": 103,
+    "": ""
+  }
+]
