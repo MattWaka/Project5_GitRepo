@@ -78,27 +78,13 @@ $("#date-slider").slider({
     }
 });
 
-d3.json("data/coins.json").then(function(data){
-    // console.log(data);
+d3.json("data/MattsCS399Stuff.json").then(function(data){
+    //console.log(data);
 
     // Prepare and clean data
-    filteredData = {};
-    for (var coin in data) { //each coin type
-        if (!data.hasOwnProperty(coin)) { //if there is no data for that
-            continue;
-        }
-        filteredData[coin] = data[coin].filter(function(d){ //add new array with all present prices to new data
-            return !(d["price_usd"] == null)
-        });
-        filteredData[coin].forEach(function(d){ //convert
-            d["price_usd"] = +d["price_usd"];
-            d["24h_vol"] = +d["24h_vol"];
-            d["market_cap"] = +d["market_cap"];
-            d["date"] = parseTime(d["date"])
-        });
-    }
+    mattsData = data;
 
-    console.log(filteredData);
+    console.log(mattsData);
 
     // we do not run d3.interval because we dont have any time-based automated tasks.
 
@@ -112,7 +98,7 @@ function update() {
     var coin = $("#coin-select").val(),
         yValue = $("#var-select").val(),
         sliderValues = $("#date-slider").slider("values");
-    var dataTimeFiltered = filteredData[coin].filter(function(d){
+    var dataTimeFiltered = mattsData[coin].filter(function(d){
         return ((d.date >= sliderValues[0]) && (d.date <= sliderValues[1]))
     });
 
