@@ -67,13 +67,13 @@ $("#var-select").on("change", update)
 // Add jQuery UI slider
 $("#date-slider").slider({
     range: true,
-    max: parseTime("31/10/2017").getTime(),
-    min: parseTime("12/5/2013").getTime(),
-    step: 86400000, // One day
-    values: [parseTime("12/5/2013").getTime(), parseTime("31/10/2017").getTime()],
+    max: 170,
+    min: 0,
+    step: 0.05, // One day
+    values: [0, 170],
     slide: function(event, ui){
-        $("#dateLabel1").text(formatTime(new Date(ui.values[0])));
-        $("#dateLabel2").text(formatTime(new Date(ui.values[1])));
+        $("#timeLabel1").text(0);
+        $("#timeLabel2").text(170);
         update();
     }
 });
@@ -110,10 +110,10 @@ function update() {
 
     // Filter data based on selections
     var coin = $("#coin-select").val(),
-        yValue = $("#var-select").val(),
-        sliderValues = $("#date-slider").slider("values");
+        yValue = $("#var-select").val();
+        //sliderValues = $("#time-slider").slider("values");
     var dataTimeFiltered = filteredData[coin].filter(function(d){
-        return ((d.date >= sliderValues[0]) && (d.date <= sliderValues[1]))
+        return ((d.date >= parseTime("12/5/2013").getTime()) && (d.date <= parseTime("31/10/2017").getTime()))
     });
 
     // Update scales
