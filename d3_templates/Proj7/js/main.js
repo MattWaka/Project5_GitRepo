@@ -78,6 +78,17 @@ $("#date-slider").slider({
     }
 });
 
+d3.json("data/CS399_Attack_Data.json").then(function(data){
+    //console.log(data);
+
+    // Prepare and clean data
+    ethansData = data;
+
+    console.log(ethansData);
+
+    // we do not run d3.interval because we dont have any time-based automated tasks.
+})
+
 d3.json("data/MattsCS399Stuff.json").then(function(data){
     //console.log(data);
 
