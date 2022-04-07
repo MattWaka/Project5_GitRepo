@@ -18,7 +18,7 @@ var t = function(){ return d3.transition().duration(1000); }
 
 var parseTime = d3.timeParse("%d/%m/%Y");
 var formatTime = d3.timeFormat("%d/%m/%Y");
-var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+var bisectDate = d3.bisector(function(d) { return d.Time; }).left;
 
 // Add the line for the first time
 g.append("path")
@@ -42,10 +42,10 @@ var yLabel = g.append("text")
     .attr("x", -170)
     .attr("font-size", "20px")
     .attr("text-anchor", "middle")
-    .text("Price (USD)")
+    .text("Attacks")
 
 // Scales
-var x = d3.scaleTime().range([0, width]);
+var x = d3.scaleLinear().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
 
 // X-axis
@@ -65,15 +65,15 @@ $("#coin-select").on("change", update)
 $("#var-select").on("change", update)
 
 // Add jQuery UI slider
-$("#date-slider").slider({
+$("#time-slider").slider({
     range: true,
-    max: 170,
+    max: 500,
     min: 0,
-    step: 0.05, // One day
-    values: [0, 170],
+    step: 0.05, 
+    values: [0, 500],
     slide: function(event, ui){
         $("#timeLabel1").text(0);
-        $("#timeLabel2").text(170);
+        $("#timeLabel2").text(500);
         update();
     }
 });
@@ -108,34 +108,33 @@ function update() {
     // Filter data based on selections
     var coin = $("#coin-select").val(),
         yValue = $("#var-select").val();
-        //sliderValues = $("#time-slider").slider("values");
-    var dataTimeFiltered = filteredData[coin].filter(function(d){
-        return ((d.date >= parseTime("12/5/2013").getTime()) && (d.date <= parseTime("31/10/2017").getTime()))
+        sliderValues = $("#time-slider").slider("values");
+    var dataTimeFiltered = ethansData.filter(function(d){
+        return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
     });
 
-    
-
     // Update scales
-    x.domain(d3.extent(dataTimeFiltered, function(d){ return d.date; }));
-    y.domain([d3.min(dataTimeFiltered, function(d){ return d[yValue]; }) / 1.005, 
-        d3.max(dataTimeFiltered, function(d){ return d[yValue]; }) * 1.005]);
+    x.domain(d3.extent(dataTimeFiltered, function(d){ return d.Time; }));
+    y.domain([d3.min(dataTimeFiltered, function(d){ return d.Giant_Attacks; }) / 1.005, 
+        d3.max(dataTimeFiltered, function(d){ return  d.Giant_Attacks; }) * 1.005]);
 
     // Fix for format values
-    var formatSi = d3.format(".2s");
-    function formatAbbreviation(x) {
-      var s = formatSi(x);
-      switch (s[s.length - 1]) {
-        case "G": return s.slice(0, -1) + "B";
-        case "k": return s.slice(0, -1) + "K";
-      }
-      return s;
-    }
+    //var formatSi = d3.format(".2s");
+    //function formatAbbreviation(x) {
+    //  var s = formatSi(x);
+    //  switch (s[s.length - 1]) {
+    //    case "G": return s.slice(0, -1) + "B";
+    //    case "k": return s.slice(0, -1) + "K";
+    //  }
+    //  return s;
+    //}
 
     // Update axes
     xAxisCall.scale(x);
     xAxis.transition(t()).call(xAxisCall);
     yAxisCall.scale(y);
-    yAxis.transition(t()).call(yAxisCall.tickFormat(formatAbbreviation));
+    yAxis.transition(t()).call(yAxisCall);
+    //yAxis.transition(t()).call(yAxisCall.tickFormat(formatAbbreviation));
 
     // Clear old tooltips
     d3.select(".focus").remove();
@@ -172,17 +171,17 @@ function update() {
             i = bisectDate(dataTimeFiltered, x0, 1),
             d0 = dataTimeFiltered[i - 1],
             d1 = dataTimeFiltered[i],
-            d = (d1 && d0) ? (x0 - d0.date > d1.date - x0 ? d1 : d0) : 0;
-        focus.attr("transform", "translate(" + x(d.date) + "," + y(d[yValue]) + ")");
-        focus.select("text").text(function() { return d3.format("$,")(d[yValue].toFixed(2)); });
-        focus.select(".x-hover-line").attr("y2", height - y(d[yValue]));
-        focus.select(".y-hover-line").attr("x2", -x(d.date));
+            d = (d1 && d0) ? (x0 - d0.Time > d1.Time - x0 ? d1 : d0) : 0;
+        focus.attr("transform", "translate(" + x(d.Time) + "," + y(d.Giant_Attacks) + ")");
+        focus.select("text").text(function() { return d3.format(",")(d.Giant_Attacks.toFixed(2)); });
+        focus.select(".x-hover-line").attr("y2", height - y(d.Giant_Attacks));
+        focus.select(".y-hover-line").attr("x2", -x(d.Time));
     }
 
     // Path generator
     line = d3.line()
-        .x(function(d){ return x(d.date); })
-        .y(function(d){ return y(d[yValue]); });
+        .x(function(d){ return x(d.Time); })
+        .y(function(d){ return y(d.Giant_Attacks); });
 
     // Update our line path
     g.select(".line")
@@ -190,9 +189,9 @@ function update() {
         .attr("d", line(dataTimeFiltered));
 
     // Update y-axis label
-    var newText = (yValue == "price_usd") ? "Price (USD)" :
-        ((yValue == "market_cap") ?  "Market Capitalization (USD)" : "24 Hour Trading Volume (USD)")
-    yLabel.text(newText);
+    //var newText = (yValue == "price_usd") ? "Price (USD)" :
+    //    ((yValue == "market_cap") ?  "Market Capitalization (USD)" : "24 Hour Trading Volume (USD)")
+    //yLabel.text(newText);
 }
 
 
