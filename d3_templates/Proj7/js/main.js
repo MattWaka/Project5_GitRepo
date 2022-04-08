@@ -60,23 +60,6 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis");
 
-// Set event callbacks and listeners
-$("#coin-select").on("change", update)
-$("#var-select").on("change", update)
-
-// Add jQuery UI slider
-$("#time-slider").slider({
-    range: true,
-    max: 500,
-    min: 0,
-    step: 0.05, 
-    values: [0, 500],
-    slide: function(event, ui){
-        $("#timeLabel1").text(0);
-        $("#timeLabel2").text(500);
-        update();
-    }
-});
 
 d3.json("data/CS399_Attack_Data.json").then(function(data){
     //console.log(data);
@@ -102,16 +85,65 @@ d3.json("data/MattsCS399Stuff.json").then(function(data){
     // Run the visualization for the first time
     update();
 })
+    
+
+// Set event callbacks and listeners
+//$("#game-select").on("change", update)
+$("#game-select").on("change", function(){
+    const removeChilds = (parent) => {
+        while (parent.lastChild) {
+            parent.removeChild(parent.lastChild);
+        }
+    };
+
+    const container = document.querySelector('#var-select');
+    removeChilds(container);
+
+    if($("#game-select").val() == "Ethan")
+    {
+        for(k in Object.keys(ethansData[0]))
+        {
+            var curr_key = Object.keys(ethansData[0])[k];
+            if(curr_key == "Time" || curr_key == "")
+                continue;
+
+            console.log(curr_key);
+            var option = document.createElement("option");
+            option.value = curr_key;
+            option.text = curr_key;
+
+            container.appendChild(option);
+        }
+    }
+    
+    update();
+})
+$("#var-select").on("change", update)
+
+// Add jQuery UI slider
+$("#time-slider").slider({
+    range: true,
+    max: 500,
+    min: 0,
+    step: 0.05, 
+    values: [0, 500],
+    slide: function(event, ui){
+        $("#timeLabel1").text(0);
+        $("#timeLabel2").text(500);
+        update();
+    }
+});
 
 function update() {
 
     // Filter data based on selections
-    var coin = $("#coin-select").val(),
+    var game = $("#game-select").val(),
         yValue = $("#var-select").val();
         sliderValues = $("#time-slider").slider("values");
     var dataTimeFiltered = ethansData.filter(function(d){
         return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
     });
+
 
     // Update scales
     x.domain(d3.extent(dataTimeFiltered, function(d){ return d.Time; }));
