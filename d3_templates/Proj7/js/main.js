@@ -99,12 +99,29 @@ $("#game-select").on("change", function(){
     const container = document.querySelector('#var-select');
     removeChilds(container);
 
-    if($("#game-select").val() == "Ethan")
+    if($("#game-select").val() == "Codebase: Elegon")
     {
         for(k in Object.keys(ethansData[0]))
         {
             var curr_key = Object.keys(ethansData[0])[k];
-            if(curr_key == "Time" || curr_key == "")
+            if(curr_key == "Time" || curr_key == "FIELD7")
+                continue;
+
+            console.log(curr_key);
+            var option = document.createElement("option");
+            option.value = curr_key;
+            option.text = curr_key;
+
+            container.appendChild(option);
+        }
+    }
+    
+    if($("#game-select").val() == "Codebase: Project Atlantis")
+    {
+        for(k in Object.keys(mattsData[0]))
+        {
+            var curr_key = Object.keys(mattsData[0])[k];
+            if(curr_key == "Time")
                 continue;
 
             console.log(curr_key);
@@ -139,53 +156,32 @@ function update() {
     // Filter data based on selections
     var game = $("#game-select").val(),
         yValue = $("#var-select").val();
-        if(yValue == "Giant")
-            console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
-    var FilteredData = ethansData.filter(function(d){
-        return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
-    });
 
+    var FilteredData;
+    
+    if(game == "Codebase: Elegon")
+    {
+        FilteredData = ethansData.filter(function(d){
+            return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
+        });
+    }
+    else if(game == "Codebase: Project Atlantis")
+    {
+        FilteredData = mattsData.filter(function(d){
+            return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
+        });
+    }
+    
     //change image
     if(yValue == "Skeleton")
         document.getElementById("logo").setAttribute('src', "img/elegon.png");
 
     // Update scales
     x.domain(d3.extent(FilteredData, function(d){ return d.Time; }));
-    y.domain([d3.min(FilteredData, function(d){ 
-        switch(yValue)
-        {
-            case "Giant":
-                return d.Giant;
-            case "Skeleton":
-                return d.Skeleton;
-            case "Wizard":
-                return d.Wizard;
-            case "Eyeball":
-                return d.Eyeball;
-            case "Enabled AI Count":
-                return d.EnabledAICount;
-            case "Disabled AI Count":
-                return d.DisabledAICount;
-        }
-     }) / 1.005, 
-        d3.max(FilteredData, function(d){ switch(yValue)
-            {
-                case "Giant":
-                    return d.Giant;
-                case "Skeleton":
-                    return d.Skeleton;
-                case "Wizard":
-                    return d.Wizard;
-                case "Eyeball":
-                    return d.Eyeball;
-                case "Total":
-                    return d.Total;
-                case "Enabled AI Count":
-                    return d.EnabledAICount;
-                case "Disabled AI Count":
-                    return d.DisabledAICount;
-            } }) * 1.005]);
+    y.domain([d3.min(FilteredData, function(d){ return d[yValue]; }) / 1.005, 
+        d3.max(FilteredData, function(d){ return d[yValue]; }) * 1.005]);
+
 
     // Fix for format values
     //var formatSi = d3.format(".2s");
@@ -241,86 +237,16 @@ function update() {
             d0 = FilteredData[i - 1],
             d1 = FilteredData[i],
             d = (d1 && d0) ? (x0 - d0.Time > d1.Time - x0 ? d1 : d0) : 0;
-        focus.attr("transform", "translate(" + x(d.Time) + "," + (function(dat){
-            switch(yValue)
-            {
-                case "Giant":
-                    return y(d.Giant);
-                case "Skeleton":
-                    return y(d.Skeleton);
-                case "Wizard":
-                    return y(d.Wizard);
-                case "Eyeball":
-                    return y(d.Eyeball);
-                case "Total":
-                    return y(d.Total);
-                case "Enabled AI Count":
-                    return y(d.EnabledAICount);
-                case "Disabled AI Count":
-                    return y(d.DisabledAICount);
-            }
-        }) + ")");
-        focus.select("text").text(function() { return d3.format(",")((function(dat){
-            switch(yValue)
-            {
-                case "Giant":
-                    return d.Giant;
-                case "Skeleton":
-                    return d.Skeleton;
-                case "Wizard":
-                    return d.Wizard;
-                case "Eyeball":
-                    return d.Eyeball;
-                case "Total":
-                    return d.Total;
-                case "Enabled AI Count":
-                    return d.EnabledAICount;
-                case "Disabled AI Count":
-                    return d.DisabledAICount;
-            }
-        }).toFixed(2)); });
-        focus.select(".x-hover-line").attr("y2", height - (function(dat){
-            switch(yValue)
-            {
-                case "Giant":
-                    return y(d.Giant);
-                case "Skeleton":
-                    return y(d.Skeleton);
-                case "Wizard":
-                    return y(d.Wizard);
-                case "Eyeball":
-                    return y(d.Eyeball);
-                case "Total":
-                    return y(d.Total);
-                case "Enabled AI Count":
-                    return y(d.EnabledAICount);
-                case "Disabled AI Count":
-                    return y(d.DisabledAICount);
-            }
-        }));
+            focus.attr("transform", "translate(" + x(d.Time) + "," + y(d[yValue]) + ")");
+            focus.select("text").text(function() { return d3.format(",")(d[yValue].toFixed(2)); });
+            focus.select(".x-hover-line").attr("y2", height - y(d[yValue]));
         focus.select(".y-hover-line").attr("x2", -x(d.Time));
     }
 
     // Path generator
     line = d3.line()
         .x(function(d){ return x(d.Time); })
-        .y(function(d){ switch(yValue)
-            {
-                case "Giant":
-                    return y(d.Giant);
-                case "Skeleton":
-                    return y(d.Skeleton);
-                case "Wizard":
-                    return y(d.Wizard);
-                case "Eyeball":
-                    return y(d.Eyeball);
-                case "Total":
-                    return y(d.Total);
-                case "Enabled AI Count":
-                    return y(d.EnabledAICount);
-                case "Disabled AI Count":
-                    return y(d.DisabledAICount);
-            } });
+        .y(function(d){ return y(d[yValue]); });
 
     // Update our line path
     g.select(".line")
@@ -330,7 +256,7 @@ function update() {
     // Update y-axis label
     //var newText = (yValue == "price_usd") ? "Price (USD)" :
     //    ((yValue == "market_cap") ?  "Market Capitalization (USD)" : "24 Hour Trading Volume (USD)")
-    //yLabel.text(newText);
+    //yLabel.text(yValue);
 }
 
 
