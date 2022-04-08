@@ -139,16 +139,53 @@ function update() {
     // Filter data based on selections
     var game = $("#game-select").val(),
         yValue = $("#var-select").val();
+        if(yValue == "Giant")
+            console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
-    var dataTimeFiltered = ethansData.filter(function(d){
+    var FilteredData = ethansData.filter(function(d){
         return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
     });
 
+    //change image
+    if(yValue == "Skeleton")
+        document.getElementById("logo").setAttribute('src', "img/elegon.png");
 
     // Update scales
-    x.domain(d3.extent(dataTimeFiltered, function(d){ return d.Time; }));
-    y.domain([d3.min(dataTimeFiltered, function(d){ return d.Giant_Attacks; }) / 1.005, 
-        d3.max(dataTimeFiltered, function(d){ return  d.Giant_Attacks; }) * 1.005]);
+    x.domain(d3.extent(FilteredData, function(d){ return d.Time; }));
+    y.domain([d3.min(FilteredData, function(d){ 
+        switch(yValue)
+        {
+            case "Giant":
+                return d.Giant;
+            case "Skeleton":
+                return d.Skeleton;
+            case "Wizard":
+                return d.Wizard;
+            case "Eyeball":
+                return d.Eyeball;
+            case "Enabled AI Count":
+                return d.EnabledAICount;
+            case "Disabled AI Count":
+                return d.DisabledAICount;
+        }
+     }) / 1.005, 
+        d3.max(FilteredData, function(d){ switch(yValue)
+            {
+                case "Giant":
+                    return d.Giant;
+                case "Skeleton":
+                    return d.Skeleton;
+                case "Wizard":
+                    return d.Wizard;
+                case "Eyeball":
+                    return d.Eyeball;
+                case "Total":
+                    return d.Total;
+                case "Enabled AI Count":
+                    return d.EnabledAICount;
+                case "Disabled AI Count":
+                    return d.DisabledAICount;
+            } }) * 1.005]);
 
     // Fix for format values
     //var formatSi = d3.format(".2s");
@@ -200,25 +237,95 @@ function update() {
         
     function mousemove() {
         var x0 = x.invert(d3.mouse(this)[0]),
-            i = bisectDate(dataTimeFiltered, x0, 1),
-            d0 = dataTimeFiltered[i - 1],
-            d1 = dataTimeFiltered[i],
+            i = bisectDate(FilteredData, x0, 1),
+            d0 = FilteredData[i - 1],
+            d1 = FilteredData[i],
             d = (d1 && d0) ? (x0 - d0.Time > d1.Time - x0 ? d1 : d0) : 0;
-        focus.attr("transform", "translate(" + x(d.Time) + "," + y(d.Giant_Attacks) + ")");
-        focus.select("text").text(function() { return d3.format(",")(d.Giant_Attacks.toFixed(2)); });
-        focus.select(".x-hover-line").attr("y2", height - y(d.Giant_Attacks));
+        focus.attr("transform", "translate(" + x(d.Time) + "," + (function(dat){
+            switch(yValue)
+            {
+                case "Giant":
+                    return y(d.Giant);
+                case "Skeleton":
+                    return y(d.Skeleton);
+                case "Wizard":
+                    return y(d.Wizard);
+                case "Eyeball":
+                    return y(d.Eyeball);
+                case "Total":
+                    return y(d.Total);
+                case "Enabled AI Count":
+                    return y(d.EnabledAICount);
+                case "Disabled AI Count":
+                    return y(d.DisabledAICount);
+            }
+        }) + ")");
+        focus.select("text").text(function() { return d3.format(",")((function(dat){
+            switch(yValue)
+            {
+                case "Giant":
+                    return d.Giant;
+                case "Skeleton":
+                    return d.Skeleton;
+                case "Wizard":
+                    return d.Wizard;
+                case "Eyeball":
+                    return d.Eyeball;
+                case "Total":
+                    return d.Total;
+                case "Enabled AI Count":
+                    return d.EnabledAICount;
+                case "Disabled AI Count":
+                    return d.DisabledAICount;
+            }
+        }).toFixed(2)); });
+        focus.select(".x-hover-line").attr("y2", height - (function(dat){
+            switch(yValue)
+            {
+                case "Giant":
+                    return y(d.Giant);
+                case "Skeleton":
+                    return y(d.Skeleton);
+                case "Wizard":
+                    return y(d.Wizard);
+                case "Eyeball":
+                    return y(d.Eyeball);
+                case "Total":
+                    return y(d.Total);
+                case "Enabled AI Count":
+                    return y(d.EnabledAICount);
+                case "Disabled AI Count":
+                    return y(d.DisabledAICount);
+            }
+        }));
         focus.select(".y-hover-line").attr("x2", -x(d.Time));
     }
 
     // Path generator
     line = d3.line()
         .x(function(d){ return x(d.Time); })
-        .y(function(d){ return y(d.Giant_Attacks); });
+        .y(function(d){ switch(yValue)
+            {
+                case "Giant":
+                    return y(d.Giant);
+                case "Skeleton":
+                    return y(d.Skeleton);
+                case "Wizard":
+                    return y(d.Wizard);
+                case "Eyeball":
+                    return y(d.Eyeball);
+                case "Total":
+                    return y(d.Total);
+                case "Enabled AI Count":
+                    return y(d.EnabledAICount);
+                case "Disabled AI Count":
+                    return y(d.DisabledAICount);
+            } });
 
     // Update our line path
     g.select(".line")
         .transition(t)
-        .attr("d", line(dataTimeFiltered));
+        .attr("d", line(FilteredData));
 
     // Update y-axis label
     //var newText = (yValue == "price_usd") ? "Price (USD)" :
