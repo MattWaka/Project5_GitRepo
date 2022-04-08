@@ -176,8 +176,10 @@ function update() {
     }
     
     //change image
-    if(yValue == "Skeleton")
+    if(game == "Codebase: Elegon")
         document.getElementById("logo").setAttribute('src', "img/elegon.png");
+    else
+        document.getElementById("logo").setAttribute('src', "img/logo.png");
 
     // Update scales
     x.domain(d3.extent(FilteredData, function(d){ return d.Time; }));
