@@ -115,6 +115,10 @@ function update() {
         return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
     });
 
+    //change image
+    if(yValue == "Skeleton")
+        document.getElementById("logo").setAttribute('src', "img/elegon.png");
+
     // Update scales
     x.domain(d3.extent(FilteredData, function(d){ return d.Time; }));
     y.domain([d3.min(FilteredData, function(d){ 
