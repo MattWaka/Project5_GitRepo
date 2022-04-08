@@ -109,7 +109,7 @@ function update() {
     var coin = $("#select1").val(),
         yValue = $("#var-select").val();
         if(yValue == "Giant")
-            console.log(yValue);
+            //console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
     var FilteredData = ethansData.filter(function(d){
         return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
@@ -229,44 +229,44 @@ function update() {
                     return y(d.DisabledAICount);
             }
         }) + ")");
-        focus.select("text").text(function() { return d3.format(",")((function(dat){
+        focus.select("text").text(function(dat){
             switch(yValue)
             {
                 case "Giant":
-                    return d.Giant;
+                    return d3.format(",")(d.Giant.toFixed(2));
                 case "Skeleton":
-                    return d.Skeleton;
+                    return d3.format(",")(d.Skeleton.toFixed(2));
                 case "Wizard":
-                    return d.Wizard;
+                    return d3.format(",")(d.Wizard.toFixed(2));
                 case "Eyeball":
-                    return d.Eyeball;
+                    return d3.format(",")(d.Eyeball.toFixed(2));
                 case "Total":
-                    return d.Total;
+                    return d3.format(",")(d.Total.toFixed(2));
                 case "Enabled AI Count":
-                    return d.EnabledAICount;
+                    return d3.format(",")(d.EnabledAICount.toFixed(2));
                 case "Disabled AI Count":
-                    return d.DisabledAICount;
+                    return d3.format(",")(d.DisabledAICount.toFixed(2));
             }
-        }).toFixed(2)); });
-        focus.select(".x-hover-line").attr("y2", height - (function(dat){
+        });
+        focus.select(".x-hover-line").attr("y2", function(dat){
             switch(yValue)
             {
                 case "Giant":
-                    return y(d.Giant);
+                    return height - y(d.Giant);
                 case "Skeleton":
-                    return y(d.Skeleton);
+                    return height - y(d.Skeleton);
                 case "Wizard":
-                    return y(d.Wizard);
+                    return height - y(d.Wizard);
                 case "Eyeball":
-                    return y(d.Eyeball);
+                    return height - y(d.Eyeball);
                 case "Total":
-                    return y(d.Total);
+                    return height - y(d.Total);
                 case "Enabled AI Count":
-                    return y(d.EnabledAICount);
+                    return height - y(d.EnabledAICount);
                 case "Disabled AI Count":
-                    return y(d.DisabledAICount);
+                    return height - y(d.DisabledAICount);
             }
-        }));
+        });
         focus.select(".y-hover-line").attr("x2", -x(d.Time));
     }
 
