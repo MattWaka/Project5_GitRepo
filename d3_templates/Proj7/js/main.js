@@ -111,7 +111,7 @@ function update() {
         if(yValue == "Giant")
             console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
-    var FilteredData = ethansData.filter(function(d){
+    var FilteredData = mattsData.filter(function(d){
         return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
     });
 
@@ -128,8 +128,10 @@ function update() {
                 return d.Wizard;
             case "Eyeball":
                 return d.Eyeball;
-            case "Total":
-                return d.Total;
+            case "Enabled AI Count":
+                return d.EnabledAICount;
+            case "Disabled AI Count":
+                return d.DisabledAICount;
         }
      }) / 1.005, 
         d3.max(FilteredData, function(d){ switch(yValue)
@@ -144,6 +146,10 @@ function update() {
                     return d.Eyeball;
                 case "Total":
                     return d.Total;
+                case "Enabled AI Count":
+                    return d.EnabledAICount;
+                case "Disabled AI Count":
+                    return d.DisabledAICount;
             } }) * 1.005]);
 
     // Fix for format values
@@ -213,6 +219,10 @@ function update() {
                     return y(d.Eyeball);
                 case "Total":
                     return y(d.Total);
+                case "Enabled AI Count":
+                    return y(d.EnabledAICount);
+                case "Disabled AI Count":
+                    return y(d.DisabledAICount);
             }
         }) + ")");
         focus.select("text").text(function() { return d3.format(",")((function(dat){
@@ -228,6 +238,10 @@ function update() {
                     return d.Eyeball;
                 case "Total":
                     return d.Total;
+                case "Enabled AI Count":
+                    return d.EnabledAICount;
+                case "Disabled AI Count":
+                    return d.DisabledAICount;
             }
         }).toFixed(2)); });
         focus.select(".x-hover-line").attr("y2", height - (function(dat){
@@ -243,6 +257,10 @@ function update() {
                     return y(d.Eyeball);
                 case "Total":
                     return y(d.Total);
+                case "Enabled AI Count":
+                    return y(d.EnabledAICount);
+                case "Disabled AI Count":
+                    return y(d.DisabledAICount);
             }
         }));
         focus.select(".y-hover-line").attr("x2", -x(d.Time));
@@ -263,6 +281,10 @@ function update() {
                     return y(d.Eyeball);
                 case "Total":
                     return y(d.Total);
+                case "Enabled AI Count":
+                    return y(d.EnabledAICount);
+                case "Disabled AI Count":
+                    return y(d.DisabledAICount);
             } });
 
     // Update our line path
