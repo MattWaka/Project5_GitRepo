@@ -179,7 +179,7 @@ function update() {
     if(game == "Codebase: Elegon")
         document.getElementById("logo").setAttribute('src', "img/elegon.png");
     else
-        document.getElementById("logo").setAttribute('src', "img/logo.png");
+        document.getElementById("logo").setAttribute('src', "img/atalantis_icon.png");
 
     // Update scales
     x.domain(d3.extent(FilteredData, function(d){ return d.Time; }));
