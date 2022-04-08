@@ -106,7 +106,7 @@ d3.json("data/MattsCS399Stuff.json").then(function(data){
 function update() {
 
     // Filter data based on selections
-    var coin = $("#coin-select").val(),
+    var coin = $("#select1").val(),
         yValue = $("#var-select").val();
         if(yValue == "Giant")
             console.log(yValue);
