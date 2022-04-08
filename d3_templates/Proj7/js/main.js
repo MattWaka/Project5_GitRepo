@@ -115,8 +115,8 @@ function update() {
 
     // Update scales
     x.domain(d3.extent(dataTimeFiltered, function(d){ return d.Time; }));
-    y.domain([d3.min(dataTimeFiltered, function(d){ return d.Giant_Attacks; }) / 1.005, 
-        d3.max(dataTimeFiltered, function(d){ return  d.Giant_Attacks; }) * 1.005]);
+    y.domain([d3.min(dataTimeFiltered, function(d){ return d.Giant; }) / 1.005, 
+        d3.max(dataTimeFiltered, function(d){ return  d.Giant; }) * 1.005]);
 
     // Fix for format values
     //var formatSi = d3.format(".2s");
@@ -172,16 +172,16 @@ function update() {
             d0 = dataTimeFiltered[i - 1],
             d1 = dataTimeFiltered[i],
             d = (d1 && d0) ? (x0 - d0.Time > d1.Time - x0 ? d1 : d0) : 0;
-        focus.attr("transform", "translate(" + x(d.Time) + "," + y(d.Giant_Attacks) + ")");
-        focus.select("text").text(function() { return d3.format(",")(d.Giant_Attacks.toFixed(2)); });
-        focus.select(".x-hover-line").attr("y2", height - y(d.Giant_Attacks));
+        focus.attr("transform", "translate(" + x(d.Time) + "," + y(d.Giant) + ")");
+        focus.select("text").text(function() { return d3.format(",")(d.Giant.toFixed(2)); });
+        focus.select(".x-hover-line").attr("y2", height - y(d.Giant));
         focus.select(".y-hover-line").attr("x2", -x(d.Time));
     }
 
     // Path generator
     line = d3.line()
         .x(function(d){ return x(d.Time); })
-        .y(function(d){ return y(d.Giant_Attacks); });
+        .y(function(d){ return y(d.Giant); });
 
     // Update our line path
     g.select(".line")
