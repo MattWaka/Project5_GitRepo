@@ -156,6 +156,8 @@ function update() {
     // Filter data based on selections
     var game = $("#game-select").val(),
         yValue = $("#var-select").val();
+        if(yValue == "Giant")
+            //console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
 
     var FilteredData;
