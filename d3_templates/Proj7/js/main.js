@@ -111,7 +111,7 @@ function update() {
         if(yValue == "Giant")
             console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
-    var FilteredData = mattsData.filter(function(d){
+    var FilteredData = ethansData.filter(function(d){
         return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
     });
 
