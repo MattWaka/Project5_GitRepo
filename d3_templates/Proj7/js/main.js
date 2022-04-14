@@ -192,6 +192,9 @@ function setUI() {
 
     const index = fileNames.findIndex(item => "Codebase : " + item == $("#game-select").val());
     curr_time = max_times[index];
+
+    console.log($("#time-slider"));
+
     // Add jQuery UI slider
     $("#time-slider").slider({
         range: true,
@@ -212,9 +215,9 @@ function update() {
     // Filter data based on selections
     var game = $("#game-select").val(),
         yValue = $("#var-select").val();
-        if(yValue == "Giant")
-            //console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
+
+    
     const index = fileNames.findIndex(item => "Codebase : " + item == $("#game-select").val());
 
     var FilteredData = data_array[index].filter(function(d){
@@ -288,9 +291,14 @@ function update() {
         .x(function(d){ return x(d.Time); })
         .y(function(d){ return y(d[yValue]); });
 
+    line2 = d3.line()
+        .x(function(d){return x(d.Time);})
+        .y(function(d){return y(d['Skeleton']); });
+
     // Update our line path
     g.select(".line")
         .transition(t)
+        .attr("stroke", 'black')
         .attr("d", line(FilteredData));
 
     // Update y-axis label
