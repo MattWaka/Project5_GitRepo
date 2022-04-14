@@ -67,7 +67,7 @@ d3.json("data/CS399_Attack_Data.json").then(function(data){
     // Prepare and clean data
     ethansData = data;
 
-    console.log(ethansData);
+    //console.log(ethansData);
 
     // we do not run d3.interval because we dont have any time-based automated tasks.
 })
@@ -78,7 +78,7 @@ d3.json("data/MattsCS399Stuff.json").then(function(data){
     // Prepare and clean data
     mattsData = data;
 
-    console.log(mattsData);
+    //console.log(mattsData);
 
     // we do not run d3.interval because we dont have any time-based automated tasks.
 
@@ -86,6 +86,10 @@ d3.json("data/MattsCS399Stuff.json").then(function(data){
     update();
 })
     
+var fs = require('fs');
+var files = fs.readdirSync("data/");
+
+console.log(files);
 
 // Set event callbacks and listeners
 //$("#game-select").on("change", update)
@@ -107,7 +111,6 @@ $("#game-select").on("change", function(){
             if(curr_key == "Time" || curr_key == "FIELD7")
                 continue;
 
-            console.log(curr_key);
             var option = document.createElement("option");
             option.value = curr_key;
             option.text = curr_key;
@@ -124,7 +127,6 @@ $("#game-select").on("change", function(){
             if(curr_key == "Time")
                 continue;
 
-            console.log(curr_key);
             var option = document.createElement("option");
             option.value = curr_key;
             option.text = curr_key;
