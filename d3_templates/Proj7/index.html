@@ -16,18 +16,7 @@
 
     <body>
         <script>
-            var fileNames = new Array();
-            $.ajax({
-            url: "/test/",
-            success: function(data){
-                $(data).find("td > a").each(function(){
-                    if(openFile($(this).attr("href"))){
-                        fileNames.push($(this).attr("href"));
-                    }           
-                });
-            }
-            }); 
-            console.log(fileNames);
+
         </script>
         <nav class="navbar navbar-default">
             <div class="container">
@@ -40,25 +29,18 @@
             <div id="selections" class="row">
                 <div class="col-md-4">
                     <div id="slider-div">
-                        <label>Time(sec): <span id="timeLabel1">0</span> - <span id="timeLabel2">500</span></label>
+                        <label>Time(sec): <span id="timeLabel1"></span> - <span id = "timeLabel2"></span></label>
                         <div id="time-slider"></div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <select id="game-select" class="form-control">
-                        <option selected value="Codebase: Elegon">Codebase: Elegon</option>
-                        <option value="Codebase: Project Atlantis">Codebase: Project Atlantis</option>
+
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select id="var-select" class="form-control">
-                        <option selected value="Giant">Giant</option>
-                        <option value="Wizard">Wizard</option>
-                        <option value="Skeleton">Skeleton</option>
-                        <option value="Eyeball">Eyeball</option>
-                        <option value="Total">Total</option>
-                        <option value="Enabled AI Count">Enabled AI Count</option>
-                        <option value="Disabled AI Count">Disabled AI Count</option>
+
                     </select>
                 </div>
             </div>

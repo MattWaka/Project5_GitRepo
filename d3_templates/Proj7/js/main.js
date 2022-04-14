@@ -61,54 +61,121 @@ var yAxisCall = d3.axisLeft()
 var yAxis = g.append("g")
     .attr("class", "y axis");
 
+fileNames = new Array();
+data_array = new Array();
+max_times = new Array();
 
-d3.json("data/CS399_Attack_Data.json").then(function(data){
-    //console.log(data);
+setTimeout(loadFileNames, 100);
+setTimeout(setUI, 300);
+setTimeout(updateDropdownMenu, 500);
 
-    // Prepare and clean data
-    ethansData = data;
-
-    //console.log(ethansData);
-
-    // we do not run d3.interval because we dont have any time-based automated tasks.
-})
-
-d3.json("data/MattsCS399Stuff.json").then(function(data){
-    //console.log(data);
-
-    // Prepare and clean data
-    mattsData = data;
-
-    //console.log(mattsData);
-
-    // we do not run d3.interval because we dont have any time-based automated tasks.
-
-    // Run the visualization for the first time
-    update();
-})
-    
-var fs = require('fs');
-var files = fs.readdirSync("data/");
-
-console.log(files);
-
-// Set event callbacks and listeners
-//$("#game-select").on("change", update)
-$("#game-select").on("change", function(){
-    const removeChilds = (parent) => {
-        while (parent.lastChild) {
-            parent.removeChild(parent.lastChild);
+function loadFileNames(dir) {
+    return new Promise((resolve, reject) => {
+        try {
+            
+            $.ajax({
+                url: dir,
+                success: function (data) {
+                    for(var i = 1; i < $(data).find('li').length; i++){
+                        var curr_file = $(data).find('li')[i].textContent;
+                        var extension = curr_file.substr((curr_file.lastIndexOf('.') +1));
+                        if(extension == 'json')
+                            fileNames.push(curr_file);
+                     }
+                     return resolve(fileNames);
+                }
+            });
+        } catch (ex) {
+            return reject(new Error(ex));
         }
-    };
+    });
+}
+
+function updateDropdownMenu() {
 
     const container = document.querySelector('#var-select');
-    removeChilds(container);
+    const index = fileNames.findIndex(item => "Codebase : " + item == $("#game-select").val());
+    
+    if(data_array[index] == undefined)
+        return; 
 
-    if($("#game-select").val() == "Codebase: Elegon")
+    for(k in Object.keys(data_array[index][0]))
     {
-        for(k in Object.keys(ethansData[0]))
+        var curr_key = Object.keys(data_array[index][0])[k];
+        if(curr_key == "Time" || curr_key == "FIELD7")
+            continue;
+
+        var option = document.createElement("option");
+        option.value = curr_key;
+        option.text = curr_key;
+
+        container.appendChild(option);
+    }
+
+    update();
+
+}
+
+
+
+loadFileNames('http://localhost:8000/d3_templates/Proj7/data').then((data) => {
+
+    const container = document.querySelector('#game-select');
+    
+    for(f in data)
+    {
+        var curr_key = data[f];
+        var option = document.createElement("option");
+        option.value = "Codebase : " + curr_key;
+        option.text = "Codebase : " + curr_key;
+
+        container.appendChild(option);
+
+        d3.json("data/"+curr_key).then(function(filedata){
+
+            var max = 0;
+            filedata.forEach(el => {
+                if (el['Time'] > max){
+                    max = el['Time'];
+                }
+            });
+
+            max_times.push(Math.ceil(max));
+            data_array.push(filedata);
+            
+        })
+
+
+    }
+
+    updateDropdownMenu();
+ 
+})
+.catch((error) => {
+    console.log('Files could not be loaded. please check console for details');
+});
+
+
+function setUI() {
+    // Set event callbacks and listeners
+    $("#game-select").on("change", function(){
+        const removeChilds = (parent) => {
+            while (parent.lastChild) {
+                parent.removeChild(parent.lastChild);
+            }
+        };
+
+        const container = document.querySelector('#var-select');
+        removeChilds(container);
+
+        const index = fileNames.findIndex(item => "Codebase : " + item == $("#game-select").val());
+        
+        if(data_array[index] == undefined)
+            return; 
+
+        for(k in Object.keys(data_array[index][0]))
         {
-            var curr_key = Object.keys(ethansData[0])[k];
+            var curr_key = Object.keys(data_array[index][0])[k];
             if(curr_key == "Time" || curr_key == "FIELD7")
                 continue;
 
@@ -118,41 +185,27 @@ $("#game-select").on("change", function(){
 
             container.appendChild(option);
         }
-    }
-    
-    if($("#game-select").val() == "Codebase: Project Atlantis")
-    {
-        for(k in Object.keys(mattsData[0]))
-        {
-            var curr_key = Object.keys(mattsData[0])[k];
-            if(curr_key == "Time")
-                continue;
 
-            var option = document.createElement("option");
-            option.value = curr_key;
-            option.text = curr_key;
-
-            container.appendChild(option);
-        }
-    }
-    
-    update();
-})
-$("#var-select").on("change", update)
-
-// Add jQuery UI slider
-$("#time-slider").slider({
-    range: true,
-    max: 500,
-    min: 0,
-    step: 0.05, 
-    values: [0, 500],
-    slide: function(event, ui){
-        $("#timeLabel1").text(0);
-        $("#timeLabel2").text(500);
         update();
-    }
-});
+    })
+    $("#var-select").on("change", update)
+
+    const index = fileNames.findIndex(item => "Codebase : " + item == $("#game-select").val());
+    curr_time = max_times[index];
+    // Add jQuery UI slider
+    $("#time-slider").slider({
+        range: true,
+        max: curr_time,
+        min: 0,
+        step: 0.05, 
+        values: [0, curr_time],
+        slide: function(event, ui){
+            $("#timeLabel1").text(ui.value[0]);
+            $("#timeLabel2").text(ui.value[1]);
+            update();
+        }
+    });
+}
 
 function update() {
 
@@ -162,21 +215,12 @@ function update() {
         if(yValue == "Giant")
             //console.log(yValue);
         sliderValues = $("#time-slider").slider("values");
+    const index = fileNames.findIndex(item => "Codebase : " + item == $("#game-select").val());
 
-    var FilteredData;
-    
-    if(game == "Codebase: Elegon")
-    {
-        FilteredData = ethansData.filter(function(d){
-            return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
-        });
-    }
-    else if(game == "Codebase: Project Atlantis")
-    {
-        FilteredData = mattsData.filter(function(d){
-            return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
-        });
-    }
+    var FilteredData = data_array[index].filter(function(d){
+        return ((d.Time >= sliderValues[0]) && (d.Time <= sliderValues[1]))
+    });
+
     
     //change image
     if(yValue == "Skeleton")
@@ -187,17 +231,6 @@ function update() {
     y.domain([d3.min(FilteredData, function(d){ return d[yValue]; }) / 1.005, 
         d3.max(FilteredData, function(d){ return d[yValue]; }) * 1.005]);
 
-
-    // Fix for format values
-    //var formatSi = d3.format(".2s");
-    //function formatAbbreviation(x) {
-    //  var s = formatSi(x);
-    //  switch (s[s.length - 1]) {
-    //    case "G": return s.slice(0, -1) + "B";
-    //    case "k": return s.slice(0, -1) + "K";
-    //  }
-    //  return s;
-    //}
 
     // Update axes
     xAxisCall.scale(x);
@@ -259,9 +292,7 @@ function update() {
         .attr("d", line(FilteredData));
 
     // Update y-axis label
-    //var newText = (yValue == "price_usd") ? "Price (USD)" :
-    //    ((yValue == "market_cap") ?  "Market Capitalization (USD)" : "24 Hour Trading Volume (USD)")
-    //yLabel.text(yValue);
+    yLabel.text(yValue);
 }
 
 
