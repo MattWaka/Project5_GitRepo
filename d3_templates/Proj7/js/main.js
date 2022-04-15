@@ -226,7 +226,7 @@ function update() {
 
     
     //change image
-    if(game == "Codebase: Elegon")
+    if(game == "Codebase : CS399_Attack_Data.json")
         document.getElementById("logo").setAttribute('src', "img/elegon.png");
     else
         document.getElementById("logo").setAttribute('src', "img/atalantis_icon.png");
