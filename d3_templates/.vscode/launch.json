@@ -10,34 +10,6 @@
             "name": "Project7",
             "url": "http://localhost:8000/d3_templates/Proj7/index.html",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Project6",
-            "url": "http://localhost:8000/d3_templates/Proj6/index.html",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "static_vis",
-            "url": "http://localhost:8000/d3_templates/static_vis/index.html",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "jquery",
-            "url": "http://localhost:8000/d3_templates/jquery/index.html",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "dynamic_vis",
-            "url": "http://localhost:8000/d3_templates/dynamic_vis/index.html",
-            "webRoot": "${workspaceFolder}"
         }
     ]
 }
